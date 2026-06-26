@@ -367,7 +367,7 @@ function Otp({ go }: { go: (s: Screen) => void }) {
       <div className="px-6 text-center flex-1 flex flex-col">
         <div className="my-8 grid place-items-center">
           <div className="size-32 rounded-full grid place-items-center" style={{ background: "var(--soft-rose)" }}>
-            <Phone className="size-12 text-[color:var(--color-primary)]" />
+            <PhoneIcon className="size-12 text-[color:var(--color-primary)]" />
           </div>
         </div>
         <h2 className="font-display font-bold text-xl">أدخلي رمز التحقق</h2>
