@@ -14,6 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          created_at: string
+          event_date: string
+          id: string
+          notes: string | null
+          package_id: string | null
+          payment_status: string
+          status: string
+          total: number
+          updated_at: string
+          user_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_date: string
+          id?: string
+          notes?: string | null
+          package_id?: string | null
+          payment_status?: string
+          status?: string
+          total: number
+          updated_at?: string
+          user_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          event_date?: string
+          id?: string
+          notes?: string | null
+          package_id?: string | null
+          payment_status?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          user_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          icon: string
+          id: string
+          name_ar: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon: string
+          id?: string
+          name_ar: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string
+          id?: string
+          name_ar?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          created_at: string
+          user_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -25,6 +165,7 @@ export type Database = {
           id: string
           onboarding_completed: boolean
           phone: string | null
+          style_preferences: string[]
           updated_at: string
           wedding_date: string | null
         }
@@ -38,6 +179,7 @@ export type Database = {
           id: string
           onboarding_completed?: boolean
           phone?: string | null
+          style_preferences?: string[]
           updated_at?: string
           wedding_date?: string | null
         }
@@ -51,8 +193,127 @@ export type Database = {
           id?: string
           onboarding_completed?: boolean
           phone?: string | null
+          style_preferences?: string[]
           updated_at?: string
           wedding_date?: string | null
+        }
+        Relationships: []
+      }
+      vendor_packages: {
+        Row: {
+          id: string
+          includes: string
+          name: string
+          price: number
+          sort_order: number
+          vendor_id: string
+        }
+        Insert: {
+          id?: string
+          includes?: string
+          name: string
+          price: number
+          sort_order?: number
+          vendor_id: string
+        }
+        Update: {
+          id?: string
+          includes?: string
+          name?: string
+          price?: number
+          sort_order?: number
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_packages_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendors: {
+        Row: {
+          area_m2: number | null
+          capacity: number | null
+          category_id: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          name: string
+          parking: number | null
+          price_from: number
+          rating: number
+          reviews_count: number
+        }
+        Insert: {
+          area_m2?: number | null
+          capacity?: number | null
+          category_id: string
+          city: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url: string
+          name: string
+          parking?: number | null
+          price_from: number
+          rating?: number
+          reviews_count?: number
+        }
+        Update: {
+          area_m2?: number | null
+          capacity?: number | null
+          category_id?: string
+          city?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          name?: string
+          parking?: number | null
+          price_from?: number
+          rating?: number
+          reviews_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendors_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wedding_tasks: {
+        Row: {
+          created_at: string
+          id: string
+          sort_order: number
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          status?: string
+          title?: string
+          user_id?: string
         }
         Relationships: []
       }
