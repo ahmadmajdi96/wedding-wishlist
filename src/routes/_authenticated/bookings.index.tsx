@@ -11,7 +11,7 @@ const STATUS: Record<string, { l: string; cls: string }> = {
   cancelled: { l: "ملغي", cls: "bg-muted text-muted-foreground" },
 };
 
-export const Route = createFileRoute("/_authenticated/bookings")({
+export const Route = createFileRoute("/_authenticated/bookings/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(opts),
   component: Page,
 });

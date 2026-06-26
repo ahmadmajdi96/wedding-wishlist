@@ -10,11 +10,46 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthenticatedPlanRouteImport } from './routes/_authenticated/plan'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedCategoriesIndexRouteImport } from './routes/_authenticated/categories.index'
+import { Route as AuthenticatedBookingsIndexRouteImport } from './routes/_authenticated/bookings.index'
+import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
+import { Route as AuthenticatedVendorsIdRouteImport } from './routes/_authenticated/vendors.$id'
+import { Route as AuthenticatedCategoriesSlugRouteImport } from './routes/_authenticated/categories.$slug'
+import { Route as AuthenticatedBookingsIdRouteImport } from './routes/_authenticated/bookings.$id'
+import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,30 +57,199 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthenticatedPlanRoute = AuthenticatedPlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCategoriesIndexRoute =
+  AuthenticatedCategoriesIndexRouteImport.update({
+    id: '/categories/',
+    path: '/categories/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBookingsIndexRoute =
+  AuthenticatedBookingsIndexRouteImport.update({
+    id: '/bookings/',
+    path: '/bookings/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccountIndexRoute =
+  AuthenticatedAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVendorsIdRoute = AuthenticatedVendorsIdRouteImport.update({
+  id: '/vendors/$id',
+  path: '/vendors/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCategoriesSlugRoute =
+  AuthenticatedCategoriesSlugRouteImport.update({
+    id: '/categories/$slug',
+    path: '/categories/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBookingsIdRoute = AuthenticatedBookingsIdRouteImport.update({
+  id: '/bookings/$id',
+  path: '/bookings/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAccountProfileRoute =
+  AuthenticatedAccountProfileRouteImport.update({
+    id: '/account/profile',
+    path: '/account/profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/plan': typeof AuthenticatedPlanRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/bookings/$id': typeof AuthenticatedBookingsIdRoute
+  '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
+  '/vendors/$id': typeof AuthenticatedVendorsIdRoute
+  '/account/': typeof AuthenticatedAccountIndexRoute
+  '/bookings/': typeof AuthenticatedBookingsIndexRoute
+  '/categories/': typeof AuthenticatedCategoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/plan': typeof AuthenticatedPlanRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/bookings/$id': typeof AuthenticatedBookingsIdRoute
+  '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
+  '/vendors/$id': typeof AuthenticatedVendorsIdRoute
+  '/account': typeof AuthenticatedAccountIndexRoute
+  '/bookings': typeof AuthenticatedBookingsIndexRoute
+  '/categories': typeof AuthenticatedCategoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/plan': typeof AuthenticatedPlanRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/_authenticated/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/_authenticated/bookings/$id': typeof AuthenticatedBookingsIdRoute
+  '/_authenticated/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
+  '/_authenticated/vendors/$id': typeof AuthenticatedVendorsIdRoute
+  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_authenticated/bookings/': typeof AuthenticatedBookingsIndexRoute
+  '/_authenticated/categories/': typeof AuthenticatedCategoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/favorites'
+    | '/home'
+    | '/notifications'
+    | '/plan'
+    | '/auth/callback'
+    | '/account/profile'
+    | '/bookings/$id'
+    | '/categories/$slug'
+    | '/vendors/$id'
+    | '/account/'
+    | '/bookings/'
+    | '/categories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sitemap.xml'
-  id: '__root__' | '/' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/favorites'
+    | '/home'
+    | '/notifications'
+    | '/plan'
+    | '/auth/callback'
+    | '/account/profile'
+    | '/bookings/$id'
+    | '/categories/$slug'
+    | '/vendors/$id'
+    | '/account'
+    | '/bookings'
+    | '/categories'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/onboarding'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/_authenticated/favorites'
+    | '/_authenticated/home'
+    | '/_authenticated/notifications'
+    | '/_authenticated/plan'
+    | '/auth/callback'
+    | '/_authenticated/account/profile'
+    | '/_authenticated/bookings/$id'
+    | '/_authenticated/categories/$slug'
+    | '/_authenticated/vendors/$id'
+    | '/_authenticated/account/'
+    | '/_authenticated/bookings/'
+    | '/_authenticated/categories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -58,6 +262,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +297,140 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_authenticated/plan': {
+      id: '/_authenticated/plan'
+      path: '/plan'
+      fullPath: '/plan'
+      preLoaderRoute: typeof AuthenticatedPlanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/categories/': {
+      id: '/_authenticated/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof AuthenticatedCategoriesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bookings/': {
+      id: '/_authenticated/bookings/'
+      path: '/bookings'
+      fullPath: '/bookings/'
+      preLoaderRoute: typeof AuthenticatedBookingsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account/': {
+      id: '/_authenticated/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vendors/$id': {
+      id: '/_authenticated/vendors/$id'
+      path: '/vendors/$id'
+      fullPath: '/vendors/$id'
+      preLoaderRoute: typeof AuthenticatedVendorsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/categories/$slug': {
+      id: '/_authenticated/categories/$slug'
+      path: '/categories/$slug'
+      fullPath: '/categories/$slug'
+      preLoaderRoute: typeof AuthenticatedCategoriesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bookings/$id': {
+      id: '/_authenticated/bookings/$id'
+      path: '/bookings/$id'
+      fullPath: '/bookings/$id'
+      preLoaderRoute: typeof AuthenticatedBookingsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account/profile': {
+      id: '/_authenticated/account/profile'
+      path: '/account/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AuthenticatedAccountProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedPlanRoute: typeof AuthenticatedPlanRoute
+  AuthenticatedAccountProfileRoute: typeof AuthenticatedAccountProfileRoute
+  AuthenticatedBookingsIdRoute: typeof AuthenticatedBookingsIdRoute
+  AuthenticatedCategoriesSlugRoute: typeof AuthenticatedCategoriesSlugRoute
+  AuthenticatedVendorsIdRoute: typeof AuthenticatedVendorsIdRoute
+  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
+  AuthenticatedBookingsIndexRoute: typeof AuthenticatedBookingsIndexRoute
+  AuthenticatedCategoriesIndexRoute: typeof AuthenticatedCategoriesIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedPlanRoute: AuthenticatedPlanRoute,
+  AuthenticatedAccountProfileRoute: AuthenticatedAccountProfileRoute,
+  AuthenticatedBookingsIdRoute: AuthenticatedBookingsIdRoute,
+  AuthenticatedCategoriesSlugRoute: AuthenticatedCategoriesSlugRoute,
+  AuthenticatedVendorsIdRoute: AuthenticatedVendorsIdRoute,
+  AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
+  AuthenticatedBookingsIndexRoute: AuthenticatedBookingsIndexRoute,
+  AuthenticatedCategoriesIndexRoute: AuthenticatedCategoriesIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport

@@ -8,7 +8,7 @@ import bridePortrait from "@/assets/bride-portrait.jpg";
 
 const opts = queryOptions({ queryKey: ["me"], queryFn: () => getMyProfile() });
 
-export const Route = createFileRoute("/_authenticated/account")({
+export const Route = createFileRoute("/_authenticated/account/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(opts),
   component: Page,
 });

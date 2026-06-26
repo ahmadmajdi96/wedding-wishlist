@@ -7,7 +7,7 @@ import { BottomNav, Phone, TopBar } from "@/components/app/Shell";
 const ICONS: Record<string, any> = { Building2, Sparkles, Camera, Gift, Gem, Heart, Car, Mail };
 const opts = queryOptions({ queryKey: ["categories"], queryFn: () => listCategories() });
 
-export const Route = createFileRoute("/_authenticated/categories")({
+export const Route = createFileRoute("/_authenticated/categories/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(opts),
   component: Page,
 });
