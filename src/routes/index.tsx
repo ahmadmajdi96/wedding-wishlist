@@ -164,11 +164,11 @@ function Index() {
                 </p>
                 <div className="space-y-4 pt-2">
                   {[
-                    ["أفضل الموردين", "مختارين بعناية", Gem],
-                    ["موثوق وآمن", "تقييمات حقيقية", Check],
-                    ["دعم متخصص", "نحن معك دائماً", Bell],
-                    ["تنظيم سهل", "خطط، تابع، وارتاح", Calendar],
-                  ].map(([title, subtitle, Icon]) => (
+                    { title: "أفضل الموردين", subtitle: "مختارين بعناية", Icon: Gem },
+                    { title: "موثوق وآمن", subtitle: "تقييمات حقيقية", Icon: Check },
+                    { title: "دعم متخصص", subtitle: "نحن معك دائماً", Icon: Bell },
+                    { title: "تنظيم سهل", subtitle: "خطط، تابع، وارتاح", Icon: Calendar },
+                  ].map(({ title, subtitle, Icon }) => (
                     <div key={title} className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
                       <div className="grid h-13 w-13 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]">
                         <Icon className="h-5 w-5" />
@@ -351,15 +351,15 @@ function HomeScreen({ todayLabel }: { todayLabel: string }) {
       <SectionHeader title="الخدمات الأكثر طلباً" />
       <div className="grid grid-cols-4 gap-3">
         {[
-          ["قاعات", Building2],
-          ["فساتين", Sparkles],
-          ["بدلات", Shirt],
-          ["تصوير", Camera],
-          ["ديكور", Gift],
-          ["ذهب", Gem],
-          ["ضيافة", Bell],
-          ["تجهيز البيت", Heart],
-        ].map(([label, Icon]) => (
+          { label: "قاعات", Icon: Building2 },
+          { label: "فساتين", Icon: Sparkles },
+          { label: "بدلات", Icon: Shirt },
+          { label: "تصوير", Icon: Camera },
+          { label: "ديكور", Icon: Gift },
+          { label: "ذهب", Icon: Gem },
+          { label: "ضيافة", Icon: Bell },
+          { label: "تجهيز البيت", Icon: Heart },
+        ].map(({ label, Icon }) => (
           <div key={label} className="app-icon-chip flex flex-col items-center gap-2 rounded-[1.2rem] px-2 py-3 text-center">
             <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
               <Icon className="h-5 w-5" />
@@ -487,11 +487,11 @@ function VenueDetailsScreen({ venue }: { venue: Venue }) {
         </div>
         <div className="mt-4 grid grid-cols-4 gap-2 text-center text-xs">
           {[
-            ["خدمة راقية", Bell],
-            ["سعة 800 شخص", Building2],
-            ["مواقف سيارات", Calendar],
-            ["قاعة نسائية", Sparkles],
-          ].map(([label, Icon]) => (
+            { label: "خدمة راقية", Icon: Bell },
+            { label: "سعة 800 شخص", Icon: Building2 },
+            { label: "مواقف سيارات", Icon: Calendar },
+            { label: "قاعة نسائية", Icon: Sparkles },
+          ].map(({ label, Icon }) => (
             <div key={label} className="app-icon-chip rounded-[1rem] px-2 py-3">
               <Icon className="mx-auto h-4 w-4 text-accent" />
               <p className="mt-2 leading-5 text-foreground">{label}</p>
