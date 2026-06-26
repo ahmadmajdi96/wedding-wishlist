@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   Bell, Search, Sparkles, Camera, Shirt, Gem, Calendar, Check, ChevronRight, ChevronLeft,
   Building2, Gift, MapPin, Star, Heart, Home as HomeIcon, User, Grid3x3, Bookmark,
-  Mail, Lock, Eye, EyeOff, ArrowRight, Filter, SlidersHorizontal, Phone, Wallet,
+  Mail, Lock, Eye, EyeOff, ArrowRight, Filter, SlidersHorizontal, Phone as PhoneIcon, Wallet,
   Settings, LogOut, ChevronDown, Plus, ImageIcon, MessageCircle,
 } from "lucide-react";
 import { useMemo, useState } from "react";
