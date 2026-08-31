@@ -138,9 +138,39 @@ function Page() {
             ))}
           </div>
         )}
-        {tab === "reviews" && (
-          <div className="mt-4 text-sm text-muted-foreground">{vendor.reviews_count} تقييم بمعدل {vendor.rating} نجوم.</div>
+        {tab === "reviews" && <ReviewsPanel vendorId={id} />}
+
+        {(vendor.vendor_images ?? []).length > 0 && (
+          <div className="mt-6">
+            <p className="font-display font-bold text-sm mb-2">معرض الصور</p>
+            <div className="flex gap-2 overflow-x-auto no-scrollbar">
+              {vendor.vendor_images.map((im: any) => (
+                <img key={im.id} src={im.url} alt={vendor.name} loading="lazy" className="size-28 rounded-2xl object-cover shrink-0" />
+              ))}
+            </div>
+          </div>
         )}
+
+        {(vendor.phone || vendor.whatsapp) && (
+          <div className="flex gap-2 mt-6">
+            {vendor.phone && (
+              <a href={`tel:${vendor.phone}`} className="flex-1 app-pill rounded-full py-2.5 text-center text-sm font-bold flex items-center justify-center gap-1.5">
+                <PhoneIcon className="size-4" /> اتصال
+              </a>
+            )}
+            {vendor.whatsapp && (
+              <a
+                href={`https://wa.me/${String(vendor.whatsapp).replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 app-pill rounded-full py-2.5 text-center text-sm font-bold flex items-center justify-center gap-1.5"
+              >
+                <MessageCircle className="size-4" /> واتساب
+              </a>
+            )}
+          </div>
+        )}
+
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-card border-t border-border p-4">
