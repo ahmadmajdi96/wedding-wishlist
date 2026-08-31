@@ -14,8 +14,58 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          label: string
+          value: string
+        }
+        Insert: {
+          key: string
+          label?: string
+          value?: string
+        }
+        Update: {
+          key?: string
+          label?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          entity: string
+          entity_id: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity?: string
+          entity_id?: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity?: string
+          entity_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
+          admin_note: string | null
+          cancel_reason: string | null
           created_at: string
           event_date: string
           id: string
@@ -29,6 +79,8 @@ export type Database = {
           vendor_id: string
         }
         Insert: {
+          admin_note?: string | null
+          cancel_reason?: string | null
           created_at?: string
           event_date: string
           id?: string
@@ -42,6 +94,8 @@ export type Database = {
           vendor_id: string
         }
         Update: {
+          admin_note?: string | null
+          cancel_reason?: string | null
           created_at?: string
           event_date?: string
           id?: string
@@ -71,6 +125,39 @@ export type Database = {
           },
         ]
       }
+      budget_items: {
+        Row: {
+          actual: number
+          category_slug: string
+          created_at: string
+          id: string
+          label: string
+          planned: number
+          sort_order: number
+          user_id: string
+        }
+        Insert: {
+          actual?: number
+          category_slug?: string
+          created_at?: string
+          id?: string
+          label: string
+          planned?: number
+          sort_order?: number
+          user_id: string
+        }
+        Update: {
+          actual?: number
+          category_slug?: string
+          created_at?: string
+          id?: string
+          label?: string
+          planned?: number
+          sort_order?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -94,6 +181,71 @@ export type Database = {
           id?: string
           name_ar?: string
           slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          last_message: string
+          last_message_at: string
+          unread_admin: number
+          unread_user: number
+          user_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message?: string
+          last_message_at?: string
+          unread_admin?: number
+          unread_user?: number
+          user_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message?: string
+          last_message_at?: string
+          unread_admin?: number
+          unread_user?: number
+          user_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faq: {
+        Row: {
+          answer: string
+          id: string
+          is_visible: boolean
+          question: string
+          sort_order: number
+        }
+        Insert: {
+          answer?: string
+          id?: string
+          is_visible?: boolean
+          question: string
+          sort_order?: number
+        }
+        Update: {
+          answer?: string
+          id?: string
+          is_visible?: boolean
+          question?: string
           sort_order?: number
         }
         Relationships: []
@@ -123,6 +275,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      guests: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          rsvp: string
+          seats: number
+          side: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          phone?: string
+          rsvp?: string
+          seats?: number
+          side?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          rsvp?: string
+          seats?: number
+          side?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       home_features: {
         Row: {
@@ -223,6 +408,62 @@ export type Database = {
         }
         Relationships: []
       }
+      legal_pages: {
+        Row: {
+          body: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+          sender_role: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+          sender_role?: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          sender_role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string
@@ -253,6 +494,50 @@ export type Database = {
         }
         Relationships: []
       }
+      offers: {
+        Row: {
+          created_at: string
+          description: string
+          discount_percent: number
+          ends_on: string | null
+          id: string
+          is_active: boolean
+          starts_on: string
+          title: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          discount_percent?: number
+          ends_on?: string | null
+          id?: string
+          is_active?: boolean
+          starts_on?: string
+          title: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          discount_percent?: number
+          ends_on?: string | null
+          id?: string
+          is_active?: boolean
+          starts_on?: string
+          title?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offers_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -261,7 +546,10 @@ export type Database = {
           city: string | null
           created_at: string
           full_name: string | null
+          guest_count: number | null
           id: string
+          notify_bookings: boolean
+          notify_offers: boolean
           onboarding_completed: boolean
           phone: string | null
           style_preferences: string[]
@@ -275,7 +563,10 @@ export type Database = {
           city?: string | null
           created_at?: string
           full_name?: string | null
+          guest_count?: number | null
           id: string
+          notify_bookings?: boolean
+          notify_offers?: boolean
           onboarding_completed?: boolean
           phone?: string | null
           style_preferences?: string[]
@@ -289,7 +580,10 @@ export type Database = {
           city?: string | null
           created_at?: string
           full_name?: string | null
+          guest_count?: number | null
           id?: string
+          notify_bookings?: boolean
+          notify_offers?: boolean
           onboarding_completed?: boolean
           phone?: string | null
           style_preferences?: string[]
@@ -302,24 +596,36 @@ export type Database = {
         Row: {
           comment: string
           created_at: string
+          helpful_count: number
           id: string
+          is_reported: boolean
+          photo_url: string
           rating: number
+          status: string
           user_id: string
           vendor_id: string
         }
         Insert: {
           comment?: string
           created_at?: string
+          helpful_count?: number
           id?: string
+          is_reported?: boolean
+          photo_url?: string
           rating?: number
+          status?: string
           user_id: string
           vendor_id: string
         }
         Update: {
           comment?: string
           created_at?: string
+          helpful_count?: number
           id?: string
+          is_reported?: boolean
+          photo_url?: string
           rating?: number
+          status?: string
           user_id?: string
           vendor_id?: string
         }
@@ -332,6 +638,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      saved_searches: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          params: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          params?: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          params?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          admin_reply: string
+          created_at: string
+          id: string
+          message: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_reply?: string
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_reply?: string
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       testimonials: {
         Row: {
@@ -386,6 +749,38 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      vendor_availability: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          note: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          note?: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          note?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_availability_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       vendor_images: {
         Row: {
@@ -474,6 +869,8 @@ export type Database = {
           price_from: number
           rating: number
           reviews_count: number
+          sort_order: number
+          status: string
           updated_at: string
           views_count: number
           whatsapp: string | null
@@ -497,6 +894,8 @@ export type Database = {
           price_from: number
           rating?: number
           reviews_count?: number
+          sort_order?: number
+          status?: string
           updated_at?: string
           views_count?: number
           whatsapp?: string | null
@@ -520,6 +919,8 @@ export type Database = {
           price_from?: number
           rating?: number
           reviews_count?: number
+          sort_order?: number
+          status?: string
           updated_at?: string
           views_count?: number
           whatsapp?: string | null
@@ -537,7 +938,9 @@ export type Database = {
       wedding_tasks: {
         Row: {
           created_at: string
+          due_date: string | null
           id: string
+          notes: string
           sort_order: number
           status: string
           title: string
@@ -545,7 +948,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          due_date?: string | null
           id?: string
+          notes?: string
           sort_order?: number
           status?: string
           title: string
@@ -553,7 +958,9 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          due_date?: string | null
           id?: string
+          notes?: string
           sort_order?: number
           status?: string
           title?: string
