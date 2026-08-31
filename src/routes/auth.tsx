@@ -9,9 +9,10 @@ import { BrandMark, Phone, PrimaryBtn, TopBar } from "@/components/app/Shell";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
-  validateSearch: (s: { mode?: "login" | "signup" }) => ({
-    mode: s.mode === "signup" ? ("signup" as const) : ("login" as const),
+  validateSearch: (s: Record<string, unknown>): { mode?: "login" | "signup" } => ({
+    mode: s["mode"] === "signup" ? "signup" : "login",
   }),
+
 
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();
