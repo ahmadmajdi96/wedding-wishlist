@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { getVendor, listVendors } from "@/lib/catalog.functions";
 import { listReviews, upsertMyReview, deleteMyReview } from "@/lib/reviews.functions";
 import { listFavorites, toggleFavorite, createBooking } from "@/lib/user.functions";
+import { startConversation } from "@/lib/saas.functions";
 import { Phone, fmt } from "@/components/app/Shell";
 
 export const Route = createFileRoute("/_authenticated/vendors/$id")({
@@ -397,6 +398,11 @@ function Page() {
           </div>
         )}
 
+        <div className="mt-3">
+          <ChatButton vendorId={vendor.id} />
+        </div>
+
+
         {/* Similar vendors */}
         {(similar.data ?? []).filter((v: any) => v.id !== id).length > 0 && (
           <div className="mt-8">
@@ -634,5 +640,24 @@ function ReviewsPanel({ vendorId, rating, count }: { vendorId: string; rating: n
         </div>
       ))}
     </div>
+  );
+}
+
+function ChatButton({ vendorId }: { vendorId: string }) {
+  const nav = useNavigate();
+  const start = useServerFn(startConversation);
+  const m = useMutation({
+    mutationFn: () => start({ data: { vendorId } }),
+    onSuccess: (r) => nav({ to: "/messages/$id", params: { id: r.id } }),
+    onError: (e: Error) => toast.error(e.message),
+  });
+  return (
+    <button
+      onClick={() => m.mutate()}
+      disabled={m.isPending}
+      className="w-full rounded-2xl gradient-pink text-white font-bold py-3 text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:-translate-y-0.5 transition"
+    >
+      <MessageCircle className="size-4" /> مراسلة الفريق حول هذا المزوّد
+    </button>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery, useQuery, useQueryClient, queryOptions } from "@tanstack/react-query";
-import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark, Bell, ShieldCheck, Search } from "lucide-react";
+import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark, Bell, ShieldCheck, Search, Tag, Users as UsersIcon, Wallet } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/user.functions";
 import { amIAdmin } from "@/lib/admin.functions";
@@ -34,6 +34,10 @@ function Page() {
     { to: "/favorites", icon: Bookmark, label: "المفضلة" },
     { to: "/notifications", icon: Bell, label: "الإشعارات" },
     { to: "/search", icon: Search, label: "البحث المتقدم" },
+    { to: "/messages", icon: MessageCircle, label: "الرسائل" },
+    { to: "/offers", icon: Tag, label: "العروض والخصومات" },
+    { to: "/budget", icon: Wallet, label: "ميزانية الزفاف" },
+    { to: "/guests", icon: UsersIcon, label: "قائمة الضيوف" },
   ] as const;
 
 
@@ -82,13 +86,13 @@ function Page() {
             </span>
             <ChevronLeft className="size-4 text-muted-foreground" />
           </Link>
-          <div className="w-full flex items-center justify-between px-4 py-3.5 text-right">
+          <Link to="/support" className="w-full flex items-center justify-between px-4 py-3.5 text-right">
             <span className="flex items-center gap-3">
               <MessageCircle className="size-4 text-[color:var(--color-primary)]" />
               <span className="text-sm font-semibold">مركز المساعدة</span>
             </span>
             <ChevronLeft className="size-4 text-muted-foreground" />
-          </div>
+          </Link>
           <button onClick={signOut} className="w-full flex items-center justify-between px-4 py-3.5 text-right text-[color:var(--color-primary)]">
             <span className="flex items-center gap-3">
               <LogOut className="size-4" />

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import {
   Bell, Search, MapPin, Star, Building2, Sparkles, Camera, Gift, Gem, Heart, Car, Mail,
   Flower2, Music, Cake, PartyPopper, ChevronLeft, Crown, ShieldCheck, Headphones, Calendar,
+  Tag, MessageCircle, Wallet, UsersRound,
+
 } from "lucide-react";
 import { listCategories, listVendors } from "@/lib/catalog.functions";
 import { getHomeContent } from "@/lib/home.functions";
@@ -86,6 +88,26 @@ function HomePage() {
           <span className="text-[10px] bg-[color:var(--color-soft-rose)] text-[color:var(--color-primary)] font-bold rounded-full px-2 py-1">جديد</span>
         </Link>
       </div>
+
+      {/* Quick actions */}
+      <div className="px-5 mb-4 grid grid-cols-4 gap-2 animate-slide-up">
+        {[
+          { to: "/offers", label: "العروض", icon: Tag },
+          { to: "/messages", label: "الرسائل", icon: MessageCircle },
+          { to: "/budget", label: "الميزانية", icon: Wallet },
+          { to: "/guests", label: "الضيوف", icon: UsersRound },
+        ].map((a) => (
+          <Link
+            key={a.to}
+            to={a.to}
+            className="app-section rounded-2xl py-3 flex flex-col items-center gap-1.5 hover:-translate-y-0.5 transition"
+          >
+            <a.icon className="size-4 text-[color:var(--color-primary)]" />
+            <span className="text-[10px] font-bold">{a.label}</span>
+          </Link>
+        ))}
+      </div>
+
 
       {/* Hero carousel */}
       {slides.length > 0 && (

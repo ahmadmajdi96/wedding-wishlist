@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, useMutation, useQueryClient, queryOptions } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Bell, Calendar, Check } from "lucide-react";
+import { Bell, Calendar, Check, Plus, Trash2, Wallet, Users } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { saveTask, deleteTask } from "@/lib/saas.functions";
 import { listTasks, toggleTask, getMyProfile, listBookings } from "@/lib/user.functions";
 import { BottomNav, Phone, TopBar, fmt } from "@/components/app/Shell";
 
@@ -25,6 +28,22 @@ function Page() {
   const { data: bookings } = useSuspenseQuery(bookingsOpts);
   const qc = useQueryClient();
   const toggleFn = useServerFn(toggleTask);
+  const saveTaskFn = useServerFn(saveTask);
+  const delTaskFn = useServerFn(deleteTask);
+  const [newTask, setNewTask] = useState("");
+  const addTask = useMutation({
+    mutationFn: (title: string) =>
+      saveTaskFn({ data: { title, notes: "", sort_order: 99, due_date: null } }),
+    onSuccess: () => {
+      setNewTask("");
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const removeTask = useMutation({
+    mutationFn: (id: string) => delTaskFn({ data: { id } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks"] }),
+  });
   const toggle = useMutation({
     mutationFn: (vars: { id: string; status: "todo" | "done" }) => toggleFn({ data: vars }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks"] }),
@@ -84,12 +103,46 @@ function Page() {
           </div>
         </div>
 
+        <div className="grid grid-cols-2 gap-2 mt-3">
+          <Link to="/budget" className="app-section rounded-2xl p-3.5 flex items-center gap-2">
+            <Wallet className="size-4 text-[color:var(--color-primary)]" />
+            <span className="text-sm font-bold">تفاصيل الميزانية</span>
+          </Link>
+          <Link to="/guests" className="app-section rounded-2xl p-3.5 flex items-center gap-2">
+            <Users className="size-4 text-[color:var(--color-primary)]" />
+            <span className="text-sm font-bold">قائمة الضيوف</span>
+          </Link>
+        </div>
+
         <div className="app-section rounded-2xl p-4 mt-3">
           <div className="flex items-center justify-between mb-3">
             <p className="font-display font-bold text-sm">
               المهام ({done} من {tasks.length} مكتملة)
             </p>
           </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (newTask.trim()) addTask.mutate(newTask.trim());
+            }}
+            className="flex gap-2 mb-3"
+          >
+            <input
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="أضيفي مهمة جديدة…"
+              aria-label="مهمة جديدة"
+              className="flex-1 rounded-xl border border-[color:var(--color-border)] bg-background px-3 py-2 text-sm outline-none focus:border-[color:var(--color-primary)]"
+            />
+            <button
+              type="submit"
+              aria-label="إضافة مهمة"
+              disabled={!newTask.trim() || addTask.isPending}
+              className="size-9 rounded-full gradient-pink text-white grid place-items-center disabled:opacity-50"
+            >
+              <Plus className="size-4" />
+            </button>
+          </form>
           <ul className="space-y-2.5">
             {tasks.map((t) => (
               <li key={t.id} className="flex items-center justify-between text-sm">
@@ -109,6 +162,13 @@ function Page() {
                   <span className={t.status === "done" ? "line-through text-muted-foreground" : ""}>
                     {t.title}
                   </span>
+                </button>
+                <button
+                  aria-label="حذف المهمة"
+                  onClick={() => removeTask.mutate(t.id)}
+                  className="size-7 grid place-items-center rounded-full app-pill text-destructive"
+                >
+                  <Trash2 className="size-3" />
                 </button>
               </li>
             ))}
