@@ -19,6 +19,7 @@ function Page() {
   const { data: me } = useSuspenseQuery(opts);
   const nav = useNavigate();
   const qc = useQueryClient();
+  const admin = useQuery({ queryKey: ["am-i-admin"], queryFn: () => amIAdmin() });
 
   async function signOut() {
     await qc.cancelQueries();
@@ -31,7 +32,10 @@ function Page() {
     { to: "/account/profile", icon: User, label: "الملف الشخصي" },
     { to: "/bookings", icon: Calendar, label: "بيانات الحجز" },
     { to: "/favorites", icon: Bookmark, label: "المفضلة" },
+    { to: "/notifications", icon: Bell, label: "الإشعارات" },
+    { to: "/search", icon: Search, label: "البحث المتقدم" },
   ] as const;
+
 
   return (
     <Phone>
