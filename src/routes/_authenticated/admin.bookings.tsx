@@ -69,7 +69,7 @@ function Page() {
             <div className="min-w-0">
               <p className="font-display font-bold text-sm">{b.vendors?.name}</p>
               <p className="text-[11px] text-muted-foreground">
-                {b.vendors?.city} · {b.event_date} · {fmt(b.total)} ر.س
+                {b.vendors?.city} · {b.event_date} · {fmt(b.total)} د.أ
               </p>
             </div>
             <div className="flex items-center gap-2">

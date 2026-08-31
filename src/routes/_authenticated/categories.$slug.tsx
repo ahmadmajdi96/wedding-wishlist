@@ -146,7 +146,7 @@ function Page() {
                 <div className="flex items-center justify-between mt-1.5">
                   <span className="text-[10px] text-muted-foreground">يبدأ من</span>
                   <span className="text-sm font-display font-bold text-[color:var(--color-primary)] flex items-center gap-0.5">
-                    {fmt(v.price_from)} ر.س <ChevronLeft className="size-3" />
+                    {fmt(v.price_from)} د.أ <ChevronLeft className="size-3" />
                   </span>
                 </div>
               </div>

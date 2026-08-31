@@ -33,9 +33,9 @@ function Onboarding() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<string[]>([]);
-  const [city, setCity] = useState("الرياض");
+  const [city, setCity] = useState("عمّان");
   const [weddingDate, setWeddingDate] = useState("");
-  const [budget, setBudget] = useState(50000);
+  const [budget, setBudget] = useState(10000);
   const update = useServerFn(updateMyProfile);
 
   const save = useMutation({
@@ -131,7 +131,7 @@ function Onboarding() {
                 onChange={(e) => setCity(e.target.value)}
                 className="app-pill mt-1 w-full rounded-2xl px-4 py-3 text-sm bg-transparent outline-none"
               >
-                {["الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام", "الخبر"].map((c) => (
+                {["عمّان", "إربد", "الزرقاء", "العقبة", "السلط", "مادبا", "جرش", "الكرك"].map((c) => (
                   <option key={c}>{c}</option>
                 ))}
               </select>
@@ -160,20 +160,20 @@ function Onboarding() {
           </div>
           <div className="px-6 text-center">
             <p className="font-display font-bold text-4xl text-[color:var(--color-primary)] mt-6">
-              {budget.toLocaleString("ar-EG")} <span className="text-base text-muted-foreground">ر.س</span>
+              {budget.toLocaleString("ar-EG")} <span className="text-base text-muted-foreground">د.أ</span>
             </p>
             <input
               type="range"
-              min={10000}
-              max={300000}
-              step={5000}
+              min={2000}
+              max={60000}
+              step={1000}
               value={budget}
               onChange={(e) => setBudget(Number(e.target.value))}
               className="w-full mt-6 accent-[color:var(--color-primary)]"
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
-              <span>10,000</span>
-              <span>300,000</span>
+              <span>2,000</span>
+              <span>60,000</span>
             </div>
           </div>
           <div className="p-6 mt-auto">

@@ -57,7 +57,7 @@ function Page() {
         <div className="app-section rounded-2xl p-4 mt-3 space-y-2 text-sm">
           <Row k="رقم الحجز" v={b.id.slice(0, 8).toUpperCase()} />
           <Row k="الباقة" v={pkg?.name ?? "الأساسية"} />
-          <Row k="السعر" v={`${fmt(b.total)} ر.س`} />
+          <Row k="السعر" v={`${fmt(b.total)} د.أ`} />
           <Row k="الحالة" v={STATUS_AR[b.status] ?? b.status} />
           <Row k="الدفع" v={b.payment_status === "paid" ? "مدفوع" : "غير مدفوع"} />
         </div>

@@ -303,7 +303,7 @@ function Page() {
                 <div className="app-section rounded-3xl p-5 text-center">
                   <p className="text-sm text-muted-foreground">لا توجد باقات محددة</p>
                   <p className="font-display font-bold text-lg mt-1 text-[color:var(--color-primary)]">
-                    {fmt(vendor.price_from)} ر.س
+                    {fmt(vendor.price_from)} د.أ
                   </p>
                 </div>
               )}
@@ -331,7 +331,7 @@ function Page() {
                         </span>
                         <p className="font-display font-bold text-sm">{p.name}</p>
                       </div>
-                      <p className="font-display font-bold text-[color:var(--color-primary)]">{fmt(p.price)} ر.س</p>
+                      <p className="font-display font-bold text-[color:var(--color-primary)]">{fmt(p.price)} د.أ</p>
                     </div>
                     <p className="text-xs text-muted-foreground mt-2 leading-relaxed pr-7">{p.includes}</p>
                   </button>
@@ -424,7 +424,7 @@ function Page() {
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-[10px] text-muted-foreground">{v.city}</span>
                         <span className="text-[10px] font-bold text-[color:var(--color-primary)]">
-                          {fmt(v.price_from)} ر.س
+                          {fmt(v.price_from)} د.أ
                         </span>
                       </div>
                     </div>
@@ -447,7 +447,7 @@ function Page() {
             </div>
             <div className="flex items-center justify-between rounded-2xl bg-[color:var(--color-muted)]/60 px-4 py-2.5">
               <span className="text-xs text-muted-foreground">{selectedPkg ? selectedPkg.name : "السعر الأساسي"}</span>
-              <span className="font-display font-bold text-sm text-[color:var(--color-primary)]">{fmt(total)} ر.س</span>
+              <span className="font-display font-bold text-sm text-[color:var(--color-primary)]">{fmt(total)} د.أ</span>
             </div>
             <input
               type="date"
@@ -468,7 +468,7 @@ function Page() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] text-muted-foreground">{selectedPkg ? selectedPkg.name : "السعر يبدأ من"}</p>
-              <p className="font-display font-bold text-xl text-[color:var(--color-primary)]">{fmt(total)} ر.س</p>
+              <p className="font-display font-bold text-xl text-[color:var(--color-primary)]">{fmt(total)} د.أ</p>
             </div>
             <button
               onClick={() => setOpen(true)}

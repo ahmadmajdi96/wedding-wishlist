@@ -41,7 +41,7 @@ function Page() {
                 {f.vendors.city}
               </p>
               <p className="text-xs font-bold text-[color:var(--color-primary)] mt-1">
-                {fmt(f.vendors.price_from)} ر.س
+                {fmt(f.vendors.price_from)} د.أ
               </p>
             </div>
             <Heart className="size-5 fill-current text-[color:var(--color-primary)]" />
