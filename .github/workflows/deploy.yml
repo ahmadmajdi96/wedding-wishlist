@@ -1,0 +1,233 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - develop
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy
+        type: choice
+        required: true
+        default: production
+        options:
+          - production
+          - staging
+          - development
+
+permissions:
+  contents: read
+
+env:
+  APP_SLUG: weddings
+  APP_DISPLAY_NAME: Weddings
+  APP_PORT: "3021"
+  DEPLOY_ROOT: /opt/weddings
+  PRODUCTION_DOMAIN: weddings.apps.cortanexai.com
+  STAGING_DOMAIN: staging-weddings.apps.cortanexai.com
+  DEVELOPMENT_DOMAIN: dev-weddings.apps.cortanexai.com
+  HEALTH_PATH: /
+  COOLIFY_PROJECT_NAME: weddings
+
+jobs:
+  select:
+    name: Select environment
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.select.outputs.environment }}
+      app_domain: ${{ steps.select.outputs.app_domain }}
+      app_url: ${{ steps.select.outputs.app_url }}
+      project_name: ${{ steps.select.outputs.project_name }}
+      coolify_service_name: ${{ steps.select.outputs.coolify_service_name }}
+    steps:
+      - id: select
+        name: Map branch to environment
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            target="${{ inputs.environment }}"
+          else
+            case "${GITHUB_REF_NAME}" in
+              main)
+                target="production"
+                ;;
+              staging)
+                target="staging"
+                ;;
+              develop)
+                target="development"
+                ;;
+              *)
+                echo "No deployment environment mapped for ${GITHUB_REF_NAME}" >&2
+                exit 1
+                ;;
+            esac
+          fi
+
+          case "${target}" in
+            production)
+              app_domain="${PRODUCTION_DOMAIN}"
+              ;;
+            staging)
+              app_domain="${STAGING_DOMAIN}"
+              ;;
+            development)
+              app_domain="${DEVELOPMENT_DOMAIN}"
+              ;;
+            *)
+              echo "Unsupported environment ${target}" >&2
+              exit 1
+              ;;
+          esac
+
+          {
+            echo "environment=${target}"
+            echo "app_domain=${app_domain}"
+            echo "app_url=https://${app_domain}"
+            echo "project_name=${APP_SLUG}-${target}"
+            echo "coolify_service_name=${APP_SLUG}-${target}"
+          } >> "${GITHUB_OUTPUT}"
+
+  deploy:
+    name: Deploy
+    needs: select
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.select.outputs.environment }}
+      url: ${{ needs.select.outputs.app_url }}
+    concurrency:
+      group: weddings-deploy-${{ needs.select.outputs.environment }}
+      cancel-in-progress: false
+
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      DEPLOY_NOTIFY_EMAIL_TO: ${{ secrets.DEPLOY_NOTIFY_EMAIL_TO }}
+      DEPLOY_NOTIFY_EMAIL_FROM: ${{ secrets.DEPLOY_NOTIFY_EMAIL_FROM }}
+      DEPLOY_NOTIFY_SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_NOTIFY_SLACK_WEBHOOK_URL }}
+      DEPLOY_NOTIFY_SLACK_CHANNEL: ${{ secrets.DEPLOY_NOTIFY_SLACK_CHANNEL }}
+      DEPLOY_NOTIFY_N8N_WEBHOOK_URL: ${{ secrets.DEPLOY_NOTIFY_N8N_WEBHOOK_URL }}
+      DEPLOY_NOTIFY_N8N_WEBHOOK_SECRET: ${{ secrets.DEPLOY_NOTIFY_N8N_WEBHOOK_SECRET }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      LOVABLE_DB_MIGRATION_URL: ${{ secrets.LOVABLE_DB_MIGRATION_URL }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${DEPLOY_HOST:?DEPLOY_HOST secret is required}"
+          : "${DEPLOY_PORT:?DEPLOY_PORT secret is required}"
+          : "${DEPLOY_USER:?DEPLOY_USER secret is required}"
+          : "${DEPLOY_SSH_KEY:?DEPLOY_SSH_KEY secret is required}"
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${DEPLOY_SSH_KEY}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "${DEPLOY_PORT}" "${DEPLOY_HOST}" >> ~/.ssh/known_hosts
+
+      - name: Package release
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive_name="${APP_SLUG}-${{ github.sha }}.tar.gz"
+          tar \
+            --no-xattrs \
+            --exclude .git \
+            --exclude node_modules \
+            --exclude .output \
+            --exclude dist \
+            --exclude .env \
+            --exclude .wrangler \
+            --exclude playwright-report \
+            --exclude test-results \
+            -czf "${RUNNER_TEMP}/${archive_name}" .
+
+          echo "archive_name=${archive_name}" >> "${GITHUB_OUTPUT}"
+          echo "archive_path=${RUNNER_TEMP}/${archive_name}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload release
+        shell: bash
+        run: |
+          set -euo pipefail
+          scp \
+            -P "${DEPLOY_PORT}" \
+            -i ~/.ssh/deploy_key \
+            "${{ steps.package.outputs.archive_path }}" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:/tmp/${{ steps.package.outputs.archive_name }}"
+
+      - name: Deploy release
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          b64() {
+            printf '%s' "${1:-}" | base64 -w 0
+          }
+
+          vite_supabase_url_b64="$(b64 "${VITE_SUPABASE_URL:-}")"
+          vite_supabase_publishable_key_b64="$(b64 "${VITE_SUPABASE_PUBLISHABLE_KEY:-}")"
+          vite_supabase_project_id_b64="$(b64 "${VITE_SUPABASE_PROJECT_ID:-}")"
+          supabase_url_b64="$(b64 "${SUPABASE_URL:-}")"
+          supabase_publishable_key_b64="$(b64 "${SUPABASE_PUBLISHABLE_KEY:-}")"
+          supabase_project_id_b64="$(b64 "${SUPABASE_PROJECT_ID:-}")"
+          supabase_service_role_key_b64="$(b64 "${SUPABASE_SERVICE_ROLE_KEY:-}")"
+          lovable_db_migration_url_b64="$(b64 "${LOVABLE_DB_MIGRATION_URL:-}")"
+          notify_email_to_b64="$(b64 "${DEPLOY_NOTIFY_EMAIL_TO:-}")"
+          notify_email_from_b64="$(b64 "${DEPLOY_NOTIFY_EMAIL_FROM:-}")"
+          notify_slack_webhook_url_b64="$(b64 "${DEPLOY_NOTIFY_SLACK_WEBHOOK_URL:-}")"
+          notify_slack_channel_b64="$(b64 "${DEPLOY_NOTIFY_SLACK_CHANNEL:-}")"
+          notify_n8n_webhook_url_b64="$(b64 "${DEPLOY_NOTIFY_N8N_WEBHOOK_URL:-}")"
+          notify_n8n_webhook_secret_b64="$(b64 "${DEPLOY_NOTIFY_N8N_WEBHOOK_SECRET:-}")"
+          github_repository_b64="$(b64 "${GITHUB_REPOSITORY:-}")"
+          github_ref_name_b64="$(b64 "${GITHUB_REF_NAME:-}")"
+          github_sha_b64="$(b64 "${GITHUB_SHA:-}")"
+          github_actor_b64="$(b64 "${GITHUB_ACTOR:-}")"
+          github_event_name_b64="$(b64 "${GITHUB_EVENT_NAME:-}")"
+          github_workflow_b64="$(b64 "${GITHUB_WORKFLOW:-}")"
+          github_run_id_b64="$(b64 "${GITHUB_RUN_ID:-}")"
+          github_run_number_b64="$(b64 "${GITHUB_RUN_NUMBER:-}")"
+          github_run_attempt_b64="$(b64 "${GITHUB_RUN_ATTEMPT:-}")"
+          github_server_url_b64="$(b64 "${GITHUB_SERVER_URL:-}")"
+
+          ssh \
+            -p "${DEPLOY_PORT}" \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "APP_SLUG='${APP_SLUG}' APP_DISPLAY_NAME='${APP_DISPLAY_NAME}' APP_ENV='${{ needs.select.outputs.environment }}' APP_DOMAIN='${{ needs.select.outputs.app_domain }}' APP_URL='${{ needs.select.outputs.app_url }}' PROJECT_NAME='${{ needs.select.outputs.project_name }}' APP_VERSION='${{ github.sha }}' APP_PORT='${APP_PORT}' DEPLOY_ROOT='${DEPLOY_ROOT}' ARCHIVE_NAME='${{ steps.package.outputs.archive_name }}' COMPOSE_FILE_NAME='docker-compose.deploy.yml' HEALTH_PATH='${HEALTH_PATH}' COOLIFY_PROJECT_NAME='${COOLIFY_PROJECT_NAME}' COOLIFY_SERVICE_NAME='${{ needs.select.outputs.coolify_service_name }}' VITE_SUPABASE_URL_B64='${vite_supabase_url_b64}' VITE_SUPABASE_PUBLISHABLE_KEY_B64='${vite_supabase_publishable_key_b64}' VITE_SUPABASE_PROJECT_ID_B64='${vite_supabase_project_id_b64}' SUPABASE_URL_B64='${supabase_url_b64}' SUPABASE_PUBLISHABLE_KEY_B64='${supabase_publishable_key_b64}' SUPABASE_PROJECT_ID_B64='${supabase_project_id_b64}' SUPABASE_SERVICE_ROLE_KEY_B64='${supabase_service_role_key_b64}' LOVABLE_DB_MIGRATION_URL_B64='${lovable_db_migration_url_b64}' DEPLOY_NOTIFY_EMAIL_TO_B64='${notify_email_to_b64}' DEPLOY_NOTIFY_EMAIL_FROM_B64='${notify_email_from_b64}' DEPLOY_NOTIFY_SLACK_WEBHOOK_URL_B64='${notify_slack_webhook_url_b64}' DEPLOY_NOTIFY_SLACK_CHANNEL_B64='${notify_slack_channel_b64}' DEPLOY_NOTIFY_N8N_WEBHOOK_URL_B64='${notify_n8n_webhook_url_b64}' DEPLOY_NOTIFY_N8N_WEBHOOK_SECRET_B64='${notify_n8n_webhook_secret_b64}' GITHUB_REPOSITORY_B64='${github_repository_b64}' GITHUB_REF_NAME_B64='${github_ref_name_b64}' GITHUB_SHA_B64='${github_sha_b64}' GITHUB_ACTOR_B64='${github_actor_b64}' GITHUB_EVENT_NAME_B64='${github_event_name_b64}' GITHUB_WORKFLOW_B64='${github_workflow_b64}' GITHUB_RUN_ID_B64='${github_run_id_b64}' GITHUB_RUN_NUMBER_B64='${github_run_number_b64}' GITHUB_RUN_ATTEMPT_B64='${github_run_attempt_b64}' GITHUB_SERVER_URL_B64='${github_server_url_b64}' bash -s" \
+            < scripts/deploy-remote.sh
+
+      - name: Validate public endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for attempt in $(seq 1 60); do
+            if curl -fsS "${{ needs.select.outputs.app_url }}${HEALTH_PATH}" >/dev/null; then
+              break
+            fi
+
+            if [ "${attempt}" -eq 60 ]; then
+              echo "Timed out waiting for public HTTPS endpoint" >&2
+              exit 1
+            fi
+
+            sleep 5
+          done
