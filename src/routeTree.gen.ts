@@ -34,6 +34,7 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -168,6 +169,11 @@ const AuthenticatedAccountProfileRoute =
     path: '/account/profile',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/bookings/': typeof AuthenticatedBookingsIndexRoute
   '/categories/': typeof AuthenticatedCategoriesIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -219,6 +226,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/bookings': typeof AuthenticatedBookingsIndexRoute
   '/categories': typeof AuthenticatedCategoriesIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/bookings/': typeof AuthenticatedBookingsIndexRoute
   '/_authenticated/categories/': typeof AuthenticatedCategoriesIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -275,6 +284,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/bookings/'
     | '/categories/'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bookings'
     | '/categories'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/bookings/'
     | '/_authenticated/categories/'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -336,6 +348,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -515,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -589,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
