@@ -365,3 +365,53 @@ export const adminBroadcast = createServerFn({ method: "POST" })
     }
     return { sent: rows.length };
   });
+
+/* ---------------- home content (CMS) ---------------- */
+
+export const adminGetHomeContent = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const sb = context.supabase;
+    const [slides, sections, testimonials, features] = await Promise.all([
+      sb.from("home_slides").select("*").order("sort_order"),
+      sb.from("home_sections").select("*").order("sort_order"),
+      sb.from("testimonials").select("*").order("sort_order"),
+      sb.from("home_features").select("*").order("sort_order"),
+    ]);
+    return {
+      slides: slides.data ?? [],
+      sections: sections.data ?? [],
+      testimonials: testimonials.data ?? [],
+      features: features.data ?? [],
+    };
+  });
+
+const TABLES = ["home_slides", "home_sections", "testimonials", "home_features"] as const;
+const tableEnum = z.enum(TABLES);
+
+export const adminSaveHomeRow = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ table: tableEnum, values: z.record(z.string(), z.any()) }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { id, ...values } = data.values as Record<string, any>;
+    const q = id
+      ? context.supabase.from(data.table).update(values).eq("id", id)
+      : context.supabase.from(data.table).insert(values);
+    const { error } = await q;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const adminDeleteHomeRow = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ table: tableEnum, id: uuid }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from(data.table).delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
