@@ -121,10 +121,10 @@ function Page() {
               <input
                 type="range"
                 min={0}
-                max={100000}
-                step={1000}
-                value={maxPrice === "" ? 100000 : maxPrice}
-                onChange={(e) => setMaxPrice(Number(e.target.value) >= 100000 ? "" : Number(e.target.value))}
+                max={20000}
+                step={250}
+                value={maxPrice === "" ? 20000 : maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value) >= 20000 ? "" : Number(e.target.value))}
                 className="w-full accent-[color:var(--color-primary)]"
               />
             </label>

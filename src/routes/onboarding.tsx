@@ -35,7 +35,7 @@ function Onboarding() {
   const [picked, setPicked] = useState<string[]>([]);
   const [city, setCity] = useState("عمّان");
   const [weddingDate, setWeddingDate] = useState("");
-  const [budget, setBudget] = useState(50000);
+  const [budget, setBudget] = useState(10000);
   const update = useServerFn(updateMyProfile);
 
   const save = useMutation({
@@ -164,15 +164,15 @@ function Onboarding() {
             </p>
             <input
               type="range"
-              min={10000}
-              max={300000}
-              step={5000}
+              min={2000}
+              max={60000}
+              step={1000}
               value={budget}
               onChange={(e) => setBudget(Number(e.target.value))}
               className="w-full mt-6 accent-[color:var(--color-primary)]"
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
-              <span>10,000</span>
+              <span>2,000</span>
               <span>300,000</span>
             </div>
           </div>
