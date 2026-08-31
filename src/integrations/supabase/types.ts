@@ -199,6 +199,94 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          id: string
+          rating: number
+          user_id: string
+          vendor_id: string
+        }
+        Insert: {
+          comment?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          user_id: string
+          vendor_id: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          user_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vendor_images: {
+        Row: {
+          created_at: string
+          id: string
+          sort_order: number
+          url: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          url: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          url?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_images_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_packages: {
         Row: {
           id: string
@@ -236,6 +324,7 @@ export type Database = {
       }
       vendors: {
         Row: {
+          address: string | null
           area_m2: number | null
           capacity: number | null
           category_id: string
@@ -244,13 +333,21 @@ export type Database = {
           description: string
           id: string
           image_url: string
+          is_active: boolean
+          is_featured: boolean
+          is_verified: boolean
           name: string
           parking: number | null
+          phone: string | null
           price_from: number
           rating: number
           reviews_count: number
+          updated_at: string
+          views_count: number
+          whatsapp: string | null
         }
         Insert: {
+          address?: string | null
           area_m2?: number | null
           capacity?: number | null
           category_id: string
@@ -259,13 +356,21 @@ export type Database = {
           description?: string
           id?: string
           image_url: string
+          is_active?: boolean
+          is_featured?: boolean
+          is_verified?: boolean
           name: string
           parking?: number | null
+          phone?: string | null
           price_from: number
           rating?: number
           reviews_count?: number
+          updated_at?: string
+          views_count?: number
+          whatsapp?: string | null
         }
         Update: {
+          address?: string | null
           area_m2?: number | null
           capacity?: number | null
           category_id?: string
@@ -274,11 +379,18 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string
+          is_active?: boolean
+          is_featured?: boolean
+          is_verified?: boolean
           name?: string
           parking?: number | null
+          phone?: string | null
           price_from?: number
           rating?: number
           reviews_count?: number
+          updated_at?: string
+          views_count?: number
+          whatsapp?: string | null
         }
         Relationships: [
           {
@@ -322,10 +434,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -452,6 +570,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
