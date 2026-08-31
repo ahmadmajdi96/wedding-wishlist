@@ -124,6 +124,105 @@ export type Database = {
           },
         ]
       }
+      home_features: {
+        Row: {
+          icon: string
+          id: string
+          is_visible: boolean
+          label: string
+          sort_order: number
+        }
+        Insert: {
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          sort_order?: number
+        }
+        Update: {
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      home_sections: {
+        Row: {
+          body: string
+          cta_label: string
+          cta_slug: string
+          id: string
+          image_url: string
+          is_visible: boolean
+          key: string
+          sort_order: number
+          subtitle: string
+          title: string
+        }
+        Insert: {
+          body?: string
+          cta_label?: string
+          cta_slug?: string
+          id?: string
+          image_url?: string
+          is_visible?: boolean
+          key: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+        }
+        Update: {
+          body?: string
+          cta_label?: string
+          cta_slug?: string
+          id?: string
+          image_url?: string
+          is_visible?: boolean
+          key?: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      home_slides: {
+        Row: {
+          created_at: string
+          cta_label: string
+          cta_slug: string
+          id: string
+          image_url: string
+          is_visible: boolean
+          sort_order: number
+          subtitle: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          cta_label?: string
+          cta_slug?: string
+          id?: string
+          image_url: string
+          is_visible?: boolean
+          sort_order?: number
+          subtitle?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          cta_label?: string
+          cta_slug?: string
+          id?: string
+          image_url?: string
+          is_visible?: boolean
+          sort_order?: number
+          subtitle?: string
+          title?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string
@@ -233,6 +332,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      testimonials: {
+        Row: {
+          avatar_url: string
+          created_at: string
+          id: string
+          is_visible: boolean
+          name: string
+          quote: string
+          rating: number
+          sort_order: number
+        }
+        Insert: {
+          avatar_url?: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          name: string
+          quote?: string
+          rating?: number
+          sort_order?: number
+        }
+        Update: {
+          avatar_url?: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          name?: string
+          quote?: string
+          rating?: number
+          sort_order?: number
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {

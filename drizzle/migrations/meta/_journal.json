@@ -15,6 +15,13 @@
       "when": 1788161886590,
       "tag": "0001_revoke_trigger_fn_execute",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788166785332,
+      "tag": "0002_home_content_cms",
+      "breakpoints": true
     }
   ]
 }
