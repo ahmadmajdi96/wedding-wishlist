@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { Calendar, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Calendar, MapPin, List, CalendarDays } from "lucide-react";
 import { listBookings } from "@/lib/user.functions";
 import { BottomNav, Phone, TopBar, fmt } from "@/components/app/Shell";
+import { MonthCalendar } from "@/components/app/MonthCalendar";
 
 const opts = queryOptions({ queryKey: ["bookings"], queryFn: () => listBookings() });
 const STATUS: Record<string, { l: string; cls: string }> = {
@@ -18,9 +20,48 @@ export const Route = createFileRoute("/_authenticated/bookings/")({
 
 function Page() {
   const { data } = useSuspenseQuery(opts);
+  const [view, setView] = useState<"calendar" | "list">("calendar");
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const events = (data as any[]).map((b) => ({
+    id: b.id,
+    date: b.event_date,
+    label: b.vendors?.name ?? "حجز",
+    status: b.status,
+  }));
+  const visible =
+    view === "calendar" && selected ? (data as any[]).filter((b) => b.event_date === selected) : data;
+
   return (
     <Phone>
       <TopBar title="حجوزاتي" back="/home" />
+
+      <div className="px-5 flex gap-2 mb-3">
+        {([["calendar", "التقويم", CalendarDays], ["list", "القائمة", List]] as const).map(([k, l, Icon]) => (
+          <button
+            key={k}
+            onClick={() => setView(k)}
+            className={`rounded-full px-4 py-2 text-xs flex items-center gap-1.5 ${view === k ? "gradient-pink text-white font-bold" : "app-pill"}`}
+          >
+            <Icon className="size-3.5" /> {l}
+          </button>
+        ))}
+      </div>
+
+      {view === "calendar" && (
+        <div className="px-5 mb-3">
+          <MonthCalendar events={events} selected={selected} onSelect={setSelected} compact />
+          {selected && (
+            <p className="text-xs text-muted-foreground mt-2">
+              حجوزات يوم {selected}{" "}
+              <button onClick={() => setSelected(null)} className="text-[color:var(--color-primary)] font-bold">
+                (عرض الكل)
+              </button>
+            </p>
+          )}
+        </div>
+      )}
+
       {data.length === 0 && (
         <div className="px-6 py-20 text-center">
           <Calendar className="mx-auto size-10 text-muted-foreground mb-2" />
@@ -31,6 +72,10 @@ function Page() {
         </div>
       )}
       <div className="px-5 space-y-3 pb-6">
+        {visible.length === 0 && data.length > 0 && (
+          <p className="text-sm text-muted-foreground text-center py-6">لا توجد حجوزات في هذا اليوم</p>
+        )}
+
         {data.map((b: any) => {
           const s = STATUS[b.status] ?? STATUS.pending;
           return (
