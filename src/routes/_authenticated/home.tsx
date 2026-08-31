@@ -76,7 +76,7 @@ function HomePage() {
         </div>
         <div className="app-pill rounded-2xl px-3 py-2 flex items-center gap-1 text-xs">
           <MapPin className="size-3.5 text-[color:var(--color-primary)]" />
-          <span className="font-semibold">{me?.city || "الرياض"}</span>
+          <span className="font-semibold">{me?.city || "عمّان"}</span>
         </div>
       </div>
 

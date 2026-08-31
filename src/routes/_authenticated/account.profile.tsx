@@ -74,7 +74,7 @@ function Page() {
             className="app-pill mt-1 w-full rounded-2xl px-4 py-3 text-sm bg-transparent outline-none"
           >
             <option value="">اختاري المدينة</option>
-            {["الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام", "الخبر"].map((c) => (
+            {["عمّان", "إربد", "الزرقاء", "العقبة", "السلط", "مادبا", "جرش", "الكرك"].map((c) => (
               <option key={c}>{c}</option>
             ))}
           </select>
