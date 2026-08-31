@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import {
   Bell, Search, MapPin, Star, Building2, Sparkles, Camera, Gift, Gem, Heart, Car, Mail,
   Flower2, Music, Cake, PartyPopper, ChevronLeft, Crown, ShieldCheck, Headphones, Calendar,
+  Tag, MessageCircle, Wallet, UsersRound,
+
 } from "lucide-react";
 import { listCategories, listVendors } from "@/lib/catalog.functions";
 import { getHomeContent } from "@/lib/home.functions";
