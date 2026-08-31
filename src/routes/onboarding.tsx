@@ -173,7 +173,7 @@ function Onboarding() {
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
               <span>2,000</span>
-              <span>300,000</span>
+              <span>60,000</span>
             </div>
           </div>
           <div className="p-6 mt-auto">
