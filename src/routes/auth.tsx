@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+import { signInWithGoogle } from "@/lib/oauth";
 import { BrandMark, Phone, PrimaryBtn, TopBar } from "@/components/app/Shell";
 
 export const Route = createFileRoute("/auth")({
