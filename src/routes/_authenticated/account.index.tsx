@@ -65,6 +65,16 @@ function Page() {
               <ChevronLeft className="size-4 text-muted-foreground" />
             </Link>
           ))}
+          {admin.data?.isAdmin && (
+            <Link to="/admin" className="w-full flex items-center justify-between px-4 py-3.5 text-right">
+              <span className="flex items-center gap-3">
+                <ShieldCheck className="size-4 text-[color:var(--color-primary)]" />
+                <span className="text-sm font-semibold">لوحة الإدارة</span>
+              </span>
+              <ChevronLeft className="size-4 text-muted-foreground" />
+            </Link>
+          )}
+
           <Link to="/reset-password" className="w-full flex items-center justify-between px-4 py-3.5 text-right">
             <span className="flex items-center gap-3">
               <Lock className="size-4 text-[color:var(--color-primary)]" />
