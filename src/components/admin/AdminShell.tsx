@@ -5,6 +5,8 @@ import {
   Store,
   Grid3x3,
   CalendarCheck,
+  CalendarDays,
+  LayoutTemplate,
   Users,
   ArrowLeftRight,
 } from "lucide-react";
@@ -12,11 +14,14 @@ import { BrandLogo } from "@/components/app/Shell";
 
 const NAV = [
   { to: "/admin", label: "لوحة التحكم", icon: LayoutDashboard, exact: true },
+  { to: "/admin/home", label: "محتوى الرئيسية", icon: LayoutTemplate },
   { to: "/admin/vendors", label: "مقدّمو الخدمات", icon: Store },
   { to: "/admin/categories", label: "التصنيفات", icon: Grid3x3 },
   { to: "/admin/bookings", label: "الحجوزات", icon: CalendarCheck },
+  { to: "/admin/schedule", label: "جدول الحجوزات", icon: CalendarDays },
   { to: "/admin/users", label: "المستخدمون", icon: Users },
 ] as const;
+
 
 export function AdminShell({ title, children }: { title: string; children: ReactNode }) {
   return (

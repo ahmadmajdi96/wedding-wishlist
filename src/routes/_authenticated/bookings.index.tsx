@@ -76,7 +76,7 @@ function Page() {
           <p className="text-sm text-muted-foreground text-center py-6">لا توجد حجوزات في هذا اليوم</p>
         )}
 
-        {data.map((b: any) => {
+        {visible.map((b: any) => {
           const s = STATUS[b.status] ?? STATUS.pending;
           return (
             <Link
