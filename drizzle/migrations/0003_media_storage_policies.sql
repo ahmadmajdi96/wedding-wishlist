@@ -1,0 +1,4 @@
+CREATE POLICY "media read authenticated" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'media');
+CREATE POLICY "media upload authenticated" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'media' AND owner = auth.uid());
+CREATE POLICY "media update own or admin" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'media' AND (owner = auth.uid() OR has_role(auth.uid(),'admin')));
+CREATE POLICY "media delete own or admin" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'media' AND (owner = auth.uid() OR has_role(auth.uid(),'admin')));
