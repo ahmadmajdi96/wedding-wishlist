@@ -8,6 +8,13 @@
       "when": 1788161290910,
       "tag": "0000_admin_roles_reviews_listings",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788161886590,
+      "tag": "0001_revoke_trigger_fn_execute",
+      "breakpoints": true
     }
   ]
 }
