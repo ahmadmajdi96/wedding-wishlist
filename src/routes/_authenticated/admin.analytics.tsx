@@ -18,7 +18,7 @@ function Page() {
   const maxBookings = Math.max(1, ...data.series.map((s) => s.bookings));
 
   const kpis = [
-    { icon: TrendingUp, label: "الإيرادات المؤكدة", value: `${fmt(data.totals.revenue)} ر.س` },
+    { icon: TrendingUp, label: "الإيرادات المؤكدة", value: `${fmt(data.totals.revenue)} د.أ` },
     { icon: CalendarCheck, label: "إجمالي الحجوزات", value: data.totals.bookings },
     { icon: Users, label: "المستخدمات", value: data.totals.users },
     { icon: Store, label: "مقدّمو الخدمات", value: data.totals.vendors },

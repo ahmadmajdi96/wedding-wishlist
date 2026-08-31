@@ -94,11 +94,11 @@ function Page() {
           <div className="flex justify-between text-[11px] mt-2">
             <div>
               <p className="text-muted-foreground">الميزانية</p>
-              <p className="font-bold">{fmt(budgetMax)} ر.س</p>
+              <p className="font-bold">{fmt(budgetMax)} د.أ</p>
             </div>
             <div className="text-left">
               <p className="text-muted-foreground">المصروف</p>
-              <p className="font-bold">{fmt(spent)} ر.س</p>
+              <p className="font-bold">{fmt(spent)} د.أ</p>
             </div>
           </div>
         </div>

@@ -246,7 +246,7 @@ function HomePage() {
                   </p>
                   <div className="mt-2 flex items-center justify-between">
                     <span className="text-[10px] text-muted-foreground">يبدأ من</span>
-                    <span className="text-sm font-display font-bold text-[color:var(--color-primary)]">{fmt(v.price_from)} ر.س</span>
+                    <span className="text-sm font-display font-bold text-[color:var(--color-primary)]">{fmt(v.price_from)} د.أ</span>
                   </div>
                 </div>
               </Link>
@@ -279,7 +279,7 @@ function HomePage() {
                   <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-0.5">
                     <MapPin className="size-3" /> {v.city}
                   </p>
-                  <p className="text-xs font-bold text-[color:var(--color-primary)] mt-1.5">{fmt(v.price_from)} ر.س</p>
+                  <p className="text-xs font-bold text-[color:var(--color-primary)] mt-1.5">{fmt(v.price_from)} د.أ</p>
                 </div>
               </Link>
             ))}

@@ -117,7 +117,7 @@ function Page() {
               </label>
             </div>
             <label className="block text-[11px] text-muted-foreground">
-              أقصى سعر: {maxPrice === "" ? "بدون حد" : `${fmt(maxPrice)} ر.س`}
+              أقصى سعر: {maxPrice === "" ? "بدون حد" : `${fmt(maxPrice)} د.أ`}
               <input
                 type="range"
                 min={0}
@@ -160,7 +160,7 @@ function Page() {
                 <span className="text-[11px] flex items-center gap-0.5 text-muted-foreground">
                   <Star className="size-3 fill-current text-[color:var(--gold,#D4AF37)]" /> {v.rating} ({v.reviews_count})
                 </span>
-                <span className="text-sm font-bold text-[color:var(--color-primary)]">من {fmt(v.price_from)} ر.س</span>
+                <span className="text-sm font-bold text-[color:var(--color-primary)]">من {fmt(v.price_from)} د.أ</span>
               </div>
             </div>
           </Link>

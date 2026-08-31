@@ -62,7 +62,7 @@ function Page() {
                   {b.vendors?.name}
                 </p>
                 <p className="text-[11px] text-muted-foreground">
-                  {b.vendors?.city} · {fmt(b.total)} ر.س · {AR[b.status]}
+                  {b.vendors?.city} · {fmt(b.total)} د.أ · {AR[b.status]}
                 </p>
               </div>
               <select

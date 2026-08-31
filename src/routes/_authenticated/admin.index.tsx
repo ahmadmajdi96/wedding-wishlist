@@ -66,7 +66,7 @@ function Page() {
             <Wallet className="size-3.5" /> إجمالي الإيرادات المؤكدة
           </p>
           <p className="text-2xl font-display font-bold mt-1 text-[color:var(--color-primary)]">
-            {fmt(data.revenue)} ر.س
+            {fmt(data.revenue)} د.أ
           </p>
         </Card>
       </div>

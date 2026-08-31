@@ -79,13 +79,13 @@ function Page() {
           style={{ background: "linear-gradient(135deg, #0D2340, #1d3a6b)" }}
         >
           <p className="text-xs opacity-80">إجمالي المصروف</p>
-          <p className="font-display font-bold text-3xl mt-1">{fmt(actual)} ر.س</p>
+          <p className="font-display font-bold text-3xl mt-1">{fmt(actual)} د.أ</p>
           <div className="h-2 rounded-full bg-white/20 overflow-hidden mt-3">
             <div className="h-full rounded-full bg-[color:var(--color-accent)] transition-all" style={{ width: `${pct}%` }} />
           </div>
           <div className="flex justify-between text-[11px] mt-2 opacity-90">
-            <span>المخطط: {fmt(planned)} ر.س</span>
-            <span>الحد الأقصى: {fmt(cap)} ر.س</span>
+            <span>المخطط: {fmt(planned)} د.أ</span>
+            <span>الحد الأقصى: {fmt(cap)} د.أ</span>
           </div>
         </div>
 
@@ -172,8 +172,8 @@ function Page() {
                   />
                 </div>
                 <div className="flex justify-between text-[11px] mt-1.5 text-muted-foreground">
-                  <span>المخطط {fmt(p)} ر.س</span>
-                  <span className={a > p ? "text-destructive font-bold" : ""}>المصروف {fmt(a)} ر.س</span>
+                  <span>المخطط {fmt(p)} د.أ</span>
+                  <span className={a > p ? "text-destructive font-bold" : ""}>المصروف {fmt(a)} د.أ</span>
                 </div>
               </div>
             );

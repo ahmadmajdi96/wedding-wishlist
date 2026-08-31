@@ -160,7 +160,7 @@ function Onboarding() {
           </div>
           <div className="px-6 text-center">
             <p className="font-display font-bold text-4xl text-[color:var(--color-primary)] mt-6">
-              {budget.toLocaleString("ar-EG")} <span className="text-base text-muted-foreground">ر.س</span>
+              {budget.toLocaleString("ar-EG")} <span className="text-base text-muted-foreground">د.أ</span>
             </p>
             <input
               type="range"

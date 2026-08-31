@@ -193,7 +193,7 @@ function Page() {
                   {v.categories?.name_ar} · {v.city}
                 </p>
                 <p className="text-[11px] mt-1 flex items-center gap-2">
-                  <span className="text-[color:var(--color-primary)] font-bold">{fmt(v.price_from)} ر.س</span>
+                  <span className="text-[color:var(--color-primary)] font-bold">{fmt(v.price_from)} د.أ</span>
                   <span className="flex items-center gap-0.5 text-muted-foreground">
                     <Star className="size-3 fill-current" /> {v.rating} ({v.reviews_count})
                   </span>
@@ -269,7 +269,7 @@ function VendorExtras({ vendorId }: { vendorId: string }) {
         <div className="space-y-1">
           {(packages.data ?? []).map((p: any) => (
             <div key={p.id} className="flex items-center justify-between text-[11px] bg-[color:var(--color-muted)]/60 rounded-lg px-2 py-1.5">
-              <span>{p.name} — {fmt(p.price)} ر.س</span>
+              <span>{p.name} — {fmt(p.price)} د.أ</span>
               <button onClick={() => delPkg.mutate(p.id)} className="text-destructive"><Trash2 className="size-3" /></button>
             </div>
           ))}

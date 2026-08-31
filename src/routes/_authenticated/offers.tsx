@@ -59,7 +59,7 @@ function Page() {
                   {o.vendors?.rating}
                 </span>
                 <span className="font-bold">
-                  يبدأ من {fmt(Number(o.vendors?.price_from ?? 0) * (1 - o.discount_percent / 100))} ر.س
+                  يبدأ من {fmt(Number(o.vendors?.price_from ?? 0) * (1 - o.discount_percent / 100))} د.أ
                 </span>
               </div>
               {o.ends_on && (

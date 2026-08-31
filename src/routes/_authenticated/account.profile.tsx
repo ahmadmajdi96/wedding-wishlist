@@ -88,7 +88,7 @@ function Page() {
             className="app-pill mt-1 w-full rounded-2xl px-4 py-3 text-sm bg-transparent outline-none"
           />
         </div>
-        <Input label="الميزانية (ر.س)" value={budget} onChange={setBudget} type="number" />
+        <Input label="الميزانية (د.أ)" value={budget} onChange={setBudget} type="number" />
         <PrimaryBtn type="submit" disabled={save.isPending}>
           {save.isPending ? "جارٍ الحفظ..." : "حفظ التغييرات"}
         </PrimaryBtn>

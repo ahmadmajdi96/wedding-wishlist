@@ -100,7 +100,7 @@ function Page() {
                     <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                       <Calendar className="size-3" /> {b.event_date}
                     </p>
-                    <p className="text-sm font-bold text-[color:var(--color-primary)]">{fmt(b.total)} ر.س</p>
+                    <p className="text-sm font-bold text-[color:var(--color-primary)]">{fmt(b.total)} د.أ</p>
                   </div>
                 </div>
               </div>
