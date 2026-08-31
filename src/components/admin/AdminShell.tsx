@@ -9,6 +9,13 @@ import {
   LayoutTemplate,
   Users,
   ArrowLeftRight,
+  BarChart3,
+  Star,
+  Tag,
+  Inbox,
+  LifeBuoy,
+  FileText,
+  History,
 } from "lucide-react";
 import { BrandLogo } from "@/components/app/Shell";
 
@@ -20,6 +27,13 @@ const NAV = [
   { to: "/admin/bookings", label: "الحجوزات", icon: CalendarCheck },
   { to: "/admin/schedule", label: "جدول الحجوزات", icon: CalendarDays },
   { to: "/admin/users", label: "المستخدمون", icon: Users },
+  { to: "/admin/analytics", label: "التحليلات", icon: BarChart3 },
+  { to: "/admin/offers", label: "العروض", icon: Tag },
+  { to: "/admin/reviews", label: "التقييمات", icon: Star },
+  { to: "/admin/inbox", label: "الرسائل", icon: Inbox },
+  { to: "/admin/support", label: "طلبات الدعم", icon: LifeBuoy },
+  { to: "/admin/content", label: "محتوى المنصة", icon: FileText },
+  { to: "/admin/audit", label: "سجل النشاط", icon: History },
 ] as const;
 
 
