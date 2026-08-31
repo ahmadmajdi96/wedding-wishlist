@@ -2,11 +2,13 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, useQuery, useMutation, useQueryClient, queryOptions } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { ChevronRight, MapPin, Star, Heart, Calendar } from "lucide-react";
+import { ChevronRight, MapPin, Star, Heart, Calendar, Phone as PhoneIcon, MessageCircle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { getVendor } from "@/lib/catalog.functions";
+import { listReviews, upsertMyReview, deleteMyReview } from "@/lib/reviews.functions";
 import { listFavorites, toggleFavorite, createBooking } from "@/lib/user.functions";
 import { Phone, PrimaryBtn, fmt } from "@/components/app/Shell";
+
 
 export const Route = createFileRoute("/_authenticated/vendors/$id")({
   loader: ({ context, params }) =>
