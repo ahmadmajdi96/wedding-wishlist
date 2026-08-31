@@ -398,9 +398,9 @@ export const adminSaveHomeRow = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { id, ...values } = data.values as Record<string, any>;
-    const q = id
-      ? context.supabase.from(data.table).update(values).eq("id", id)
-      : context.supabase.from(data.table).insert(values);
+    const table: any = context.supabase.from(data.table);
+    const q = id ? table.update(values).eq("id", id) : table.insert(values);
+
     const { error } = await q;
     if (error) throw new Error(error.message);
     return { ok: true };
