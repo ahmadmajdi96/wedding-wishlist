@@ -28,6 +28,9 @@ import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedVendorsIdRouteImport } from './routes/_authenticated/vendors.$id'
 import { Route as AuthenticatedCategoriesSlugRouteImport } from './routes/_authenticated/categories.$slug'
 import { Route as AuthenticatedBookingsIdRouteImport } from './routes/_authenticated/bookings.$id'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -129,6 +132,23 @@ const AuthenticatedBookingsIdRoute = AuthenticatedBookingsIdRouteImport.update({
   path: '/bookings/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCategoriesRoute =
+  AuthenticatedAdminCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminBookingsRoute =
+  AuthenticatedAdminBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAccountProfileRoute =
   AuthenticatedAccountProfileRouteImport.update({
     id: '/account/profile',
@@ -149,6 +169,9 @@ export interface FileRoutesByFullPath {
   '/plan': typeof AuthenticatedPlanRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/vendors/$id': typeof AuthenticatedVendorsIdRoute
@@ -169,6 +192,9 @@ export interface FileRoutesByTo {
   '/plan': typeof AuthenticatedPlanRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/vendors/$id': typeof AuthenticatedVendorsIdRoute
@@ -192,6 +218,9 @@ export interface FileRoutesById {
   '/_authenticated/plan': typeof AuthenticatedPlanRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/_authenticated/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/_authenticated/vendors/$id': typeof AuthenticatedVendorsIdRoute
@@ -215,6 +244,9 @@ export interface FileRouteTypes {
     | '/plan'
     | '/auth/callback'
     | '/account/profile'
+    | '/admin/bookings'
+    | '/admin/categories'
+    | '/admin/users'
     | '/bookings/$id'
     | '/categories/$slug'
     | '/vendors/$id'
@@ -235,6 +267,9 @@ export interface FileRouteTypes {
     | '/plan'
     | '/auth/callback'
     | '/account/profile'
+    | '/admin/bookings'
+    | '/admin/categories'
+    | '/admin/users'
     | '/bookings/$id'
     | '/categories/$slug'
     | '/vendors/$id'
@@ -257,6 +292,9 @@ export interface FileRouteTypes {
     | '/_authenticated/plan'
     | '/auth/callback'
     | '/_authenticated/account/profile'
+    | '/_authenticated/admin/bookings'
+    | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/users'
     | '/_authenticated/bookings/$id'
     | '/_authenticated/categories/$slug'
     | '/_authenticated/vendors/$id'
@@ -410,6 +448,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBookingsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/categories': {
+      id: '/_authenticated/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/bookings': {
+      id: '/_authenticated/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/account/profile': {
       id: '/_authenticated/account/profile'
       path: '/account/profile'
@@ -421,10 +480,16 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
+  AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
+  AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
