@@ -136,26 +136,21 @@ export function BrandLogo({ size = 48 }: { size?: number }) {
         fill="none"
         opacity="0.85"
       />
-      <path d="M50 10 L53.8 16.5 L50 23 L46.2 16.5 Z" fill="url(#ynPink)" />
+      <path d="M50 13.5 L54 20.5 L50 27.5 L46 20.5 Z" fill="url(#ynPink)" />
       <circle cx="20" cy="52" r="2.4" fill="url(#ynGold)" />
       <circle cx="80" cy="52" r="2.4" fill="url(#ynGold)" />
 
-      {/* interlocking bands — gold passes behind, pink over, then gold over at the lower crossing */}
+      {/* interlocking bands */}
       <circle cx="40" cy="62" r="16" stroke="url(#ynGold)" strokeWidth="3.6" fill="none" />
       <circle cx="60" cy="62" r="16" stroke="url(#ynPink)" strokeWidth="3.6" fill="none" />
-      <path
-        d="M50 74.7 A16 16 0 0 0 55.6 66"
-        stroke="url(#ynGold)"
-        strokeWidth="3.6"
-        strokeLinecap="round"
-        fill="none"
-      />
 
       {/* heart cradled at the intersection */}
+      <circle cx="50" cy="63" r="11" fill="#FFFFFF" opacity="0.92" />
       <path
         d="M50 71.5 C44.6 66.8 41.4 63.8 41.4 60.2 C41.4 57.4 43.5 55.4 46.2 55.4 C47.8 55.4 49.2 56.2 50 57.4 C50.8 56.2 52.2 55.4 53.8 55.4 C56.5 55.4 58.6 57.4 58.6 60.2 C58.6 63.8 55.4 66.8 50 71.5 Z"
         fill="url(#ynPink)"
       />
+
       <path
         d="M46.6 58.4 C45.3 58.9 44.6 59.8 44.6 61"
         stroke="#FFFFFF"
