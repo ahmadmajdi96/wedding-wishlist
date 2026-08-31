@@ -73,9 +73,7 @@ function AuthPage() {
         </div>
         <button
           onClick={async () => {
-            const r = await lovable.auth.signInWithOAuth("google", {
-              redirect_uri: window.location.origin + "/auth/callback",
-            });
+            const r = await signInWithGoogle();
             if (r.error) toast.error("تعذر تسجيل الدخول عبر Google");
           }}
           className="app-pill w-full rounded-full py-3 flex items-center justify-center gap-3 font-semibold text-sm"
