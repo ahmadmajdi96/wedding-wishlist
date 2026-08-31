@@ -1,0 +1,10 @@
+node_modules
+.output
+dist
+.git
+.env
+.env.*
+!.env.docker.example
+tsconfig.tsbuildinfo
+supabase/.temp
+.lovable
