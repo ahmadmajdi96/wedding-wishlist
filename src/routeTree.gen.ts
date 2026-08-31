@@ -41,6 +41,7 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminScheduleRouteImport } from './routes/_authenticated/admin.schedule'
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminOffersRouteImport } from './routes/_authenticated/admin.offers'
+import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
 import { Route as AuthenticatedAdminHomeRouteImport } from './routes/_authenticated/admin.home'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
@@ -216,6 +217,11 @@ const AuthenticatedAdminOffersRoute =
     path: '/offers',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminInboxRoute = AuthenticatedAdminInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminHomeRoute = AuthenticatedAdminHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -267,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/offers': typeof AuthenticatedAdminOffersRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/offers': typeof AuthenticatedAdminOffersRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
@@ -344,6 +352,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/_authenticated/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/_authenticated/admin/offers': typeof AuthenticatedAdminOffersRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/_authenticated/admin/schedule': typeof AuthenticatedAdminScheduleRoute
@@ -384,6 +393,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/categories'
     | '/admin/home'
+    | '/admin/inbox'
     | '/admin/offers'
     | '/admin/reviews'
     | '/admin/schedule'
@@ -421,6 +431,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/categories'
     | '/admin/home'
+    | '/admin/inbox'
     | '/admin/offers'
     | '/admin/reviews'
     | '/admin/schedule'
@@ -460,6 +471,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/home'
+    | '/_authenticated/admin/inbox'
     | '/_authenticated/admin/offers'
     | '/_authenticated/admin/reviews'
     | '/_authenticated/admin/schedule'
@@ -714,6 +726,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminOffersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/inbox': {
+      id: '/_authenticated/admin/inbox'
+      path: '/inbox'
+      fullPath: '/admin/inbox'
+      preLoaderRoute: typeof AuthenticatedAdminInboxRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/home': {
       id: '/_authenticated/admin/home'
       path: '/home'
@@ -756,6 +775,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminHomeRoute: typeof AuthenticatedAdminHomeRoute
+  AuthenticatedAdminInboxRoute: typeof AuthenticatedAdminInboxRoute
   AuthenticatedAdminOffersRoute: typeof AuthenticatedAdminOffersRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
   AuthenticatedAdminScheduleRoute: typeof AuthenticatedAdminScheduleRoute
@@ -768,6 +788,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminHomeRoute: AuthenticatedAdminHomeRoute,
+  AuthenticatedAdminInboxRoute: AuthenticatedAdminInboxRoute,
   AuthenticatedAdminOffersRoute: AuthenticatedAdminOffersRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
   AuthenticatedAdminScheduleRoute: AuthenticatedAdminScheduleRoute,
