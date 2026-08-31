@@ -7,13 +7,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { BrandMark, Phone, PrimaryBtn, TopBar } from "@/components/app/Shell";
 
-const searchSchema = z.object({
-  mode: z.enum(["login", "signup"]).optional().default("login"),
-});
-
 export const Route = createFileRoute("/auth")({
   ssr: false,
-  validateSearch: (s) => searchSchema.parse(s),
+  validateSearch: (s: { mode?: "login" | "signup" }) => ({
+    mode: s.mode === "signup" ? ("signup" as const) : ("login" as const),
+  }),
+
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();
     if (data.user) throw redirect({ to: "/home" });
