@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import {
   ChevronRight,
-  ChevronLeft,
   MapPin,
   Star,
   Heart,
@@ -36,6 +35,16 @@ export const Route = createFileRoute("/_authenticated/vendors/$id")({
       queryOptions({ queryKey: ["vendor", params.id], queryFn: () => getVendor({ data: { id: params.id } }) }),
     ),
   component: Page,
+  head: () => ({
+    meta: [
+      { title: "تفاصيل مقدّم الخدمة | يلا نجهّز" },
+      { name: "description", content: "استعرضي الباقات والصور والتقييمات واحجزي مقدّم خدمات فرحك مباشرة من تطبيق يلا نجهّز." },
+      { property: "og:title", content: "تفاصيل مقدّم الخدمة | يلا نجهّز" },
+      { property: "og:description", content: "باقات وأسعار وصور وتقييمات حقيقية لمقدّمي خدمات الأفراح." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 function Page() {
