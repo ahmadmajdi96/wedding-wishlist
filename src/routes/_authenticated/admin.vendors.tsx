@@ -16,6 +16,7 @@ import {
   adminListCategories,
 } from "@/lib/admin.functions";
 import { AdminShell, Card, Field, inputCls } from "@/components/admin/AdminShell";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 import { fmt } from "@/components/app/Shell";
 
 const vendorsOpts = queryOptions({ queryKey: ["admin-vendors"], queryFn: () => adminListVendors() });
@@ -128,9 +129,13 @@ function Page() {
                 ))}
               </select>
             </Field>
-            <Field label="رابط الصورة الرئيسية">
-              <input className={inputCls} value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
-            </Field>
+            <ImageUpload
+              label="الصورة الرئيسية"
+              folder="vendors"
+              value={form.image_url}
+              onChange={(u) => setForm({ ...form, image_url: u })}
+            />
+
             <Field label="السعر يبدأ من">
               <input type="number" className={inputCls} value={form.price_from} onChange={(e) => setForm({ ...form, price_from: Number(e.target.value) })} />
             </Field>
@@ -230,7 +235,7 @@ function VendorExtras({ vendorId }: { vendorId: string }) {
     queryFn: () => adminListVendorImages({ data: { vendorId } }),
   });
   const [pkg, setPkg] = useState({ name: "", price: 0, includes: "" });
-  const [url, setUrl] = useState("");
+  
 
   const savePkg = useMutation({
     mutationFn: () => adminSavePackage({ data: { vendor_id: vendorId, ...pkg, sort_order: 0 } }),
@@ -245,13 +250,13 @@ function VendorExtras({ vendorId }: { vendorId: string }) {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-packages", vendorId] }),
   });
   const addImg = useMutation({
-    mutationFn: () => adminAddVendorImage({ data: { vendor_id: vendorId, url, sort_order: 0 } }),
+    mutationFn: (u: string) => adminAddVendorImage({ data: { vendor_id: vendorId, url: u, sort_order: 0 } }),
     onSuccess: () => {
-      setUrl("");
       qc.invalidateQueries({ queryKey: ["admin-vendor-images", vendorId] });
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
   const delImg = useMutation({
     mutationFn: (id: string) => adminDeleteVendorImage({ data: { id } }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-vendor-images", vendorId] }),
@@ -289,10 +294,15 @@ function VendorExtras({ vendorId }: { vendorId: string }) {
             </div>
           ))}
         </div>
-        <div className="flex gap-1 mt-2">
-          <input className={inputCls} placeholder="رابط الصورة" value={url} onChange={(e) => setUrl(e.target.value)} />
-          <button onClick={() => addImg.mutate()} disabled={url.length < 4} className="rounded-full app-pill px-3 text-[11px] shrink-0">إضافة</button>
+        <div className="mt-2">
+          <ImageUpload
+            label="أضيفي صورة للمعرض"
+            folder={`vendors/${vendorId}`}
+            value=""
+            onChange={(u) => u && addImg.mutate(u)}
+          />
         </div>
+
       </div>
     </div>
   );
