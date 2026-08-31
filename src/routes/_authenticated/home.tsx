@@ -94,7 +94,7 @@ function HomePage() {
 
       {/* Search */}
       <div className="px-5 mb-4 animate-slide-up">
-        <Link to="/categories" className="app-pill rounded-2xl flex items-center gap-3 px-4 py-3.5">
+        <Link to="/search" className="app-pill rounded-2xl flex items-center gap-3 px-4 py-3.5">
           <Search className="size-[18px] text-[color:var(--color-primary)]" />
           <span className="flex-1 text-sm text-muted-foreground">ابحثي عن قاعة، مصور، خدمة...</span>
           <span className="text-[10px] bg-[color:var(--color-soft-rose)] text-[color:var(--color-primary)] font-bold rounded-full px-2 py-1">جديد</span>

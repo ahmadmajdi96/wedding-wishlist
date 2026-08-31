@@ -7,13 +7,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { BrandMark, Phone, PrimaryBtn, TopBar } from "@/components/app/Shell";
 
-const searchSchema = z.object({
-  mode: z.enum(["login", "signup"]).optional().default("login"),
-});
-
 export const Route = createFileRoute("/auth")({
   ssr: false,
-  validateSearch: (s) => searchSchema.parse(s),
+  validateSearch: (s: Record<string, unknown>): { mode?: "login" | "signup" } => ({
+    mode: s["mode"] === "signup" ? "signup" : "login",
+  }),
+
+
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();
     if (data.user) throw redirect({ to: "/home" });
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const { mode } = Route.useSearch();
   const nav = useNavigate();
-  const [tab, setTab] = useState<"login" | "signup">(mode);
+  const [tab, setTab] = useState<"login" | "signup">(mode ?? "login");
   const [loading, setLoading] = useState(false);
 
   return (

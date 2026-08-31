@@ -16,16 +16,23 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedPlanRouteImport } from './routes/_authenticated/plan'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCategoriesIndexRouteImport } from './routes/_authenticated/categories.index'
 import { Route as AuthenticatedBookingsIndexRouteImport } from './routes/_authenticated/bookings.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AuthenticatedVendorsIdRouteImport } from './routes/_authenticated/vendors.$id'
 import { Route as AuthenticatedCategoriesSlugRouteImport } from './routes/_authenticated/categories.$slug'
 import { Route as AuthenticatedBookingsIdRouteImport } from './routes/_authenticated/bookings.$id'
+import { Route as AuthenticatedAdminVendorsRouteImport } from './routes/_authenticated/admin.vendors'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -62,6 +69,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPlanRoute = AuthenticatedPlanRouteImport.update({
   id: '/plan',
   path: '/plan',
@@ -83,6 +95,11 @@ const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCategoriesIndexRoute =
   AuthenticatedCategoriesIndexRouteImport.update({
     id: '/categories/',
@@ -95,6 +112,11 @@ const AuthenticatedBookingsIndexRoute =
     path: '/bookings/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
     id: '/account/',
@@ -117,6 +139,29 @@ const AuthenticatedBookingsIdRoute = AuthenticatedBookingsIdRouteImport.update({
   path: '/bookings/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminVendorsRoute =
+  AuthenticatedAdminVendorsRouteImport.update({
+    id: '/vendors',
+    path: '/vendors',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCategoriesRoute =
+  AuthenticatedAdminCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminBookingsRoute =
+  AuthenticatedAdminBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAccountProfileRoute =
   AuthenticatedAccountProfileRouteImport.update({
     id: '/account/profile',
@@ -130,16 +175,23 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/plan': typeof AuthenticatedPlanRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/vendors': typeof AuthenticatedAdminVendorsRoute
   '/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/vendors/$id': typeof AuthenticatedVendorsIdRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/bookings/': typeof AuthenticatedBookingsIndexRoute
   '/categories/': typeof AuthenticatedCategoriesIndexRoute
 }
@@ -153,12 +205,18 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/plan': typeof AuthenticatedPlanRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/vendors': typeof AuthenticatedAdminVendorsRoute
   '/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/vendors/$id': typeof AuthenticatedVendorsIdRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/bookings': typeof AuthenticatedBookingsIndexRoute
   '/categories': typeof AuthenticatedCategoriesIndexRoute
 }
@@ -170,16 +228,23 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/plan': typeof AuthenticatedPlanRoute
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/account/profile': typeof AuthenticatedAccountProfileRoute
+  '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/vendors': typeof AuthenticatedAdminVendorsRoute
   '/_authenticated/bookings/$id': typeof AuthenticatedBookingsIdRoute
   '/_authenticated/categories/$slug': typeof AuthenticatedCategoriesSlugRoute
   '/_authenticated/vendors/$id': typeof AuthenticatedVendorsIdRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/bookings/': typeof AuthenticatedBookingsIndexRoute
   '/_authenticated/categories/': typeof AuthenticatedCategoriesIndexRoute
 }
@@ -191,16 +256,23 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/admin'
     | '/favorites'
     | '/home'
     | '/notifications'
     | '/plan'
+    | '/search'
     | '/auth/callback'
     | '/account/profile'
+    | '/admin/bookings'
+    | '/admin/categories'
+    | '/admin/users'
+    | '/admin/vendors'
     | '/bookings/$id'
     | '/categories/$slug'
     | '/vendors/$id'
     | '/account/'
+    | '/admin/'
     | '/bookings/'
     | '/categories/'
   fileRoutesByTo: FileRoutesByTo
@@ -214,12 +286,18 @@ export interface FileRouteTypes {
     | '/home'
     | '/notifications'
     | '/plan'
+    | '/search'
     | '/auth/callback'
     | '/account/profile'
+    | '/admin/bookings'
+    | '/admin/categories'
+    | '/admin/users'
+    | '/admin/vendors'
     | '/bookings/$id'
     | '/categories/$slug'
     | '/vendors/$id'
     | '/account'
+    | '/admin'
     | '/bookings'
     | '/categories'
   id:
@@ -230,16 +308,23 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/_authenticated/admin'
     | '/_authenticated/favorites'
     | '/_authenticated/home'
     | '/_authenticated/notifications'
     | '/_authenticated/plan'
+    | '/_authenticated/search'
     | '/auth/callback'
     | '/_authenticated/account/profile'
+    | '/_authenticated/admin/bookings'
+    | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/admin/vendors'
     | '/_authenticated/bookings/$id'
     | '/_authenticated/categories/$slug'
     | '/_authenticated/vendors/$id'
     | '/_authenticated/account/'
+    | '/_authenticated/admin/'
     | '/_authenticated/bookings/'
     | '/_authenticated/categories/'
   fileRoutesById: FileRoutesById
@@ -304,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/plan': {
       id: '/_authenticated/plan'
       path: '/plan'
@@ -332,6 +424,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/categories/': {
       id: '/_authenticated/categories/'
       path: '/categories'
@@ -345,6 +444,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/bookings/'
       preLoaderRoute: typeof AuthenticatedBookingsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/account/': {
       id: '/_authenticated/account/'
@@ -374,6 +480,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBookingsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/vendors': {
+      id: '/_authenticated/admin/vendors'
+      path: '/vendors'
+      fullPath: '/admin/vendors'
+      preLoaderRoute: typeof AuthenticatedAdminVendorsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/categories': {
+      id: '/_authenticated/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/bookings': {
+      id: '/_authenticated/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/account/profile': {
       id: '/_authenticated/account/profile'
       path: '/account/profile'
@@ -384,11 +518,32 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
+  AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminVendorsRoute: typeof AuthenticatedAdminVendorsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
+  AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminVendorsRoute: AuthenticatedAdminVendorsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPlanRoute: typeof AuthenticatedPlanRoute
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedAccountProfileRoute: typeof AuthenticatedAccountProfileRoute
   AuthenticatedBookingsIdRoute: typeof AuthenticatedBookingsIdRoute
   AuthenticatedCategoriesSlugRoute: typeof AuthenticatedCategoriesSlugRoute
@@ -399,10 +554,12 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPlanRoute: AuthenticatedPlanRoute,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedAccountProfileRoute: AuthenticatedAccountProfileRoute,
   AuthenticatedBookingsIdRoute: AuthenticatedBookingsIdRoute,
   AuthenticatedCategoriesSlugRoute: AuthenticatedCategoriesSlugRoute,
@@ -436,3 +593,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

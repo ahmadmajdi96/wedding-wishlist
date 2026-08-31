@@ -1,9 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useSuspenseQuery, useQueryClient, queryOptions } from "@tanstack/react-query";
-import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark } from "lucide-react";
+import { useSuspenseQuery, useQuery, useQueryClient, queryOptions } from "@tanstack/react-query";
+import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark, Bell, ShieldCheck, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/user.functions";
+import { amIAdmin } from "@/lib/admin.functions";
 import { BottomNav, Phone, TopBar } from "@/components/app/Shell";
+
 import bridePortrait from "@/assets/bride-portrait.jpg";
 
 const opts = queryOptions({ queryKey: ["me"], queryFn: () => getMyProfile() });
@@ -17,6 +19,7 @@ function Page() {
   const { data: me } = useSuspenseQuery(opts);
   const nav = useNavigate();
   const qc = useQueryClient();
+  const admin = useQuery({ queryKey: ["am-i-admin"], queryFn: () => amIAdmin() });
 
   async function signOut() {
     await qc.cancelQueries();
@@ -29,7 +32,10 @@ function Page() {
     { to: "/account/profile", icon: User, label: "الملف الشخصي" },
     { to: "/bookings", icon: Calendar, label: "بيانات الحجز" },
     { to: "/favorites", icon: Bookmark, label: "المفضلة" },
+    { to: "/notifications", icon: Bell, label: "الإشعارات" },
+    { to: "/search", icon: Search, label: "البحث المتقدم" },
   ] as const;
+
 
   return (
     <Phone>
@@ -59,6 +65,16 @@ function Page() {
               <ChevronLeft className="size-4 text-muted-foreground" />
             </Link>
           ))}
+          {admin.data?.isAdmin && (
+            <Link to="/admin" className="w-full flex items-center justify-between px-4 py-3.5 text-right">
+              <span className="flex items-center gap-3">
+                <ShieldCheck className="size-4 text-[color:var(--color-primary)]" />
+                <span className="text-sm font-semibold">لوحة الإدارة</span>
+              </span>
+              <ChevronLeft className="size-4 text-muted-foreground" />
+            </Link>
+          )}
+
           <Link to="/reset-password" className="w-full flex items-center justify-between px-4 py-3.5 text-right">
             <span className="flex items-center gap-3">
               <Lock className="size-4 text-[color:var(--color-primary)]" />

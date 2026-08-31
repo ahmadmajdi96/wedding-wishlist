@@ -2,11 +2,13 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, useQuery, useMutation, useQueryClient, queryOptions } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { ChevronRight, MapPin, Star, Heart, Calendar } from "lucide-react";
+import { ChevronRight, MapPin, Star, Heart, Calendar, Phone as PhoneIcon, MessageCircle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { getVendor } from "@/lib/catalog.functions";
+import { listReviews, upsertMyReview, deleteMyReview } from "@/lib/reviews.functions";
 import { listFavorites, toggleFavorite, createBooking } from "@/lib/user.functions";
 import { Phone, PrimaryBtn, fmt } from "@/components/app/Shell";
+
 
 export const Route = createFileRoute("/_authenticated/vendors/$id")({
   loader: ({ context, params }) =>
@@ -138,9 +140,39 @@ function Page() {
             ))}
           </div>
         )}
-        {tab === "reviews" && (
-          <div className="mt-4 text-sm text-muted-foreground">{vendor.reviews_count} تقييم بمعدل {vendor.rating} نجوم.</div>
+        {tab === "reviews" && <ReviewsPanel vendorId={id} />}
+
+        {(vendor.vendor_images ?? []).length > 0 && (
+          <div className="mt-6">
+            <p className="font-display font-bold text-sm mb-2">معرض الصور</p>
+            <div className="flex gap-2 overflow-x-auto no-scrollbar">
+              {vendor.vendor_images.map((im: any) => (
+                <img key={im.id} src={im.url} alt={vendor.name} loading="lazy" className="size-28 rounded-2xl object-cover shrink-0" />
+              ))}
+            </div>
+          </div>
         )}
+
+        {(vendor.phone || vendor.whatsapp) && (
+          <div className="flex gap-2 mt-6">
+            {vendor.phone && (
+              <a href={`tel:${vendor.phone}`} className="flex-1 app-pill rounded-full py-2.5 text-center text-sm font-bold flex items-center justify-center gap-1.5">
+                <PhoneIcon className="size-4" /> اتصال
+              </a>
+            )}
+            {vendor.whatsapp && (
+              <a
+                href={`https://wa.me/${String(vendor.whatsapp).replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 app-pill rounded-full py-2.5 text-center text-sm font-bold flex items-center justify-center gap-1.5"
+              >
+                <MessageCircle className="size-4" /> واتساب
+              </a>
+            )}
+          </div>
+        )}
+
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-card border-t border-border p-4">
@@ -180,6 +212,88 @@ function Stat({ label, value }: { label: string; value: string }) {
     <div className="app-pill rounded-2xl py-2.5 text-center">
       <p className="text-[10px] text-muted-foreground">{label}</p>
       <p className="font-display font-bold text-sm mt-0.5">{value}</p>
+    </div>
+  );
+}
+
+function ReviewsPanel({ vendorId }: { vendorId: string }) {
+  const qc = useQueryClient();
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+
+  const reviews = useQuery({
+    queryKey: ["reviews", vendorId],
+    queryFn: () => listReviews({ data: { vendorId } }),
+  });
+
+  const save = useMutation({
+    mutationFn: () => upsertMyReview({ data: { vendor_id: vendorId, rating, comment } }),
+    onSuccess: () => {
+      toast.success("شكراً لتقييمك");
+      setComment("");
+      qc.invalidateQueries({ queryKey: ["reviews", vendorId] });
+      qc.invalidateQueries({ queryKey: ["vendor", vendorId] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const del = useMutation({
+    mutationFn: (id: string) => deleteMyReview({ data: { id } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["reviews", vendorId] });
+      qc.invalidateQueries({ queryKey: ["vendor", vendorId] });
+    },
+  });
+
+  return (
+    <div className="mt-4 space-y-3">
+      <div className="app-section rounded-2xl p-3">
+        <p className="text-sm font-display font-bold mb-2">شاركينا تجربتك</p>
+        <div className="flex gap-1 mb-2">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button key={n} onClick={() => setRating(n)} aria-label={`${n} نجوم`}>
+              <Star className={`size-5 ${n <= rating ? "fill-[color:var(--color-accent)] text-[color:var(--color-accent)]" : "text-muted-foreground"}`} />
+            </button>
+          ))}
+        </div>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="اكتبي رأيك…"
+          className="w-full rounded-2xl bg-[color:var(--color-muted)]/70 p-3 text-sm outline-none h-20"
+        />
+        <button
+          onClick={() => save.mutate()}
+          disabled={save.isPending}
+          className="mt-2 rounded-full gradient-pink text-white px-5 py-2 text-sm font-bold disabled:opacity-60"
+        >
+          نشر التقييم
+        </button>
+      </div>
+
+      {(reviews.data ?? []).length === 0 && (
+        <p className="text-sm text-muted-foreground">لا توجد تقييمات بعد — كوني الأولى!</p>
+      )}
+      {(reviews.data ?? []).map((r: any) => (
+        <div key={r.id} className="app-section rounded-2xl p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-0.5">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <Star key={n} className={`size-3.5 ${n <= r.rating ? "fill-[color:var(--color-accent)] text-[color:var(--color-accent)]" : "text-muted-foreground"}`} />
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-muted-foreground">
+                {new Date(r.created_at).toLocaleDateString("ar-EG")}
+              </span>
+              <button onClick={() => del.mutate(r.id)} className="text-muted-foreground hover:text-destructive" aria-label="حذف">
+                <Trash2 className="size-3" />
+              </button>
+            </div>
+          </div>
+          {r.comment && <p className="text-sm mt-1.5 leading-relaxed">{r.comment}</p>}
+        </div>
+      ))}
     </div>
   );
 }
