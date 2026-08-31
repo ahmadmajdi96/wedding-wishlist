@@ -1,9 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useSuspenseQuery, useQueryClient, queryOptions } from "@tanstack/react-query";
-import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark } from "lucide-react";
+import { useSuspenseQuery, useQuery, useQueryClient, queryOptions } from "@tanstack/react-query";
+import { User, Calendar, Settings, Lock, MessageCircle, LogOut, ChevronLeft, Sparkles, Bookmark, Bell, ShieldCheck, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/user.functions";
+import { amIAdmin } from "@/lib/admin.functions";
 import { BottomNav, Phone, TopBar } from "@/components/app/Shell";
+
 import bridePortrait from "@/assets/bride-portrait.jpg";
 
 const opts = queryOptions({ queryKey: ["me"], queryFn: () => getMyProfile() });
