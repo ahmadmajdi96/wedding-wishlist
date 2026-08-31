@@ -87,6 +87,26 @@ function HomePage() {
         </Link>
       </div>
 
+      {/* Quick actions */}
+      <div className="px-5 mb-4 grid grid-cols-4 gap-2 animate-slide-up">
+        {[
+          { to: "/offers", label: "العروض", icon: Tag },
+          { to: "/messages", label: "الرسائل", icon: MessageCircle },
+          { to: "/budget", label: "الميزانية", icon: Wallet },
+          { to: "/guests", label: "الضيوف", icon: UsersRound },
+        ].map((a) => (
+          <Link
+            key={a.to}
+            to={a.to}
+            className="app-section rounded-2xl py-3 flex flex-col items-center gap-1.5 hover:-translate-y-0.5 transition"
+          >
+            <a.icon className="size-4 text-[color:var(--color-primary)]" />
+            <span className="text-[10px] font-bold">{a.label}</span>
+          </Link>
+        ))}
+      </div>
+
+
       {/* Hero carousel */}
       {slides.length > 0 && (
         <div className="px-5 animate-slide-up stagger-1">
