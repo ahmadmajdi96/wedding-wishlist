@@ -125,42 +125,50 @@ export function BrandLogo({ size = 48 }: { size?: number }) {
         </radialGradient>
       </defs>
 
-      <circle cx="50" cy="52" r="34" fill="url(#ynGlow)" />
+      <circle cx="50" cy="54" r="34" fill="url(#ynGlow)" />
 
       {/* halo arch — open crown over the mark */}
       <path
-        d="M18 46 A32 32 0 0 1 82 46"
+        d="M20 52 A31 31 0 0 1 80 52"
         stroke="url(#ynGold)"
-        strokeWidth="3"
+        strokeWidth="2.8"
         strokeLinecap="round"
         fill="none"
-        opacity="0.9"
+        opacity="0.85"
       />
-      <path d="M50 6 L54.4 13 L50 20 L45.6 13 Z" fill="url(#ynPink)" />
-      <circle cx="18" cy="46" r="2.6" fill="url(#ynGold)" />
-      <circle cx="82" cy="46" r="2.6" fill="url(#ynGold)" />
+      <path d="M50 10 L53.8 16.5 L50 23 L46.2 16.5 Z" fill="url(#ynPink)" />
+      <circle cx="20" cy="52" r="2.4" fill="url(#ynGold)" />
+      <circle cx="80" cy="52" r="2.4" fill="url(#ynGold)" />
 
-      {/* interlocking bands */}
-      <circle cx="39" cy="60" r="19" stroke="url(#ynGold)" strokeWidth="4.2" fill="none" />
-      <circle cx="61" cy="60" r="19" stroke="url(#ynPink)" strokeWidth="4.2" fill="none" />
+      {/* interlocking bands — gold passes behind, pink over, then gold over at the lower crossing */}
+      <circle cx="40" cy="62" r="16" stroke="url(#ynGold)" strokeWidth="3.6" fill="none" />
+      <circle cx="60" cy="62" r="16" stroke="url(#ynPink)" strokeWidth="3.6" fill="none" />
+      <path
+        d="M50 74.7 A16 16 0 0 0 55.6 66"
+        stroke="url(#ynGold)"
+        strokeWidth="3.6"
+        strokeLinecap="round"
+        fill="none"
+      />
 
       {/* heart cradled at the intersection */}
       <path
-        d="M50 76 C42.5 69.5 38 65.4 38 60.4 C38 56.6 40.9 53.8 44.6 53.8 C46.9 53.8 48.9 54.9 50 56.6 C51.1 54.9 53.1 53.8 55.4 53.8 C59.1 53.8 62 56.6 62 60.4 C62 65.4 57.5 69.5 50 76 Z"
+        d="M50 71.5 C44.6 66.8 41.4 63.8 41.4 60.2 C41.4 57.4 43.5 55.4 46.2 55.4 C47.8 55.4 49.2 56.2 50 57.4 C50.8 56.2 52.2 55.4 53.8 55.4 C56.5 55.4 58.6 57.4 58.6 60.2 C58.6 63.8 55.4 66.8 50 71.5 Z"
         fill="url(#ynPink)"
       />
       <path
-        d="M45.4 57.6 C43.6 58.2 42.6 59.4 42.5 61.2"
+        d="M46.6 58.4 C45.3 58.9 44.6 59.8 44.6 61"
         stroke="#FFFFFF"
-        strokeOpacity="0.75"
-        strokeWidth="1.8"
+        strokeOpacity="0.8"
+        strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"
       />
 
       {/* sparks */}
-      <path d="M24 74 L25.4 77.4 L28.8 78.8 L25.4 80.2 L24 83.6 L22.6 80.2 L19.2 78.8 L22.6 77.4 Z" fill="url(#ynGold)" opacity="0.85" />
-      <path d="M77 70 L78 72.5 L80.5 73.5 L78 74.5 L77 77 L76 74.5 L73.5 73.5 L76 72.5 Z" fill="url(#ynGold)" opacity="0.7" />
+      <path d="M17 78 L18.2 81 L21.2 82.2 L18.2 83.4 L17 86.4 L15.8 83.4 L12.8 82.2 L15.8 81 Z" fill="url(#ynGold)" opacity="0.85" />
+      <path d="M84 76 L84.9 78.2 L87.1 79.1 L84.9 80 L84 82.2 L83.1 80 L80.9 79.1 L83.1 78.2 Z" fill="url(#ynGold)" opacity="0.65" />
+
     </svg>
   );
 }
