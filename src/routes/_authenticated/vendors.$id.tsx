@@ -397,6 +397,11 @@ function Page() {
           </div>
         )}
 
+        <div className="mt-3">
+          <ChatButton vendorId={vendor.id} />
+        </div>
+
+
         {/* Similar vendors */}
         {(similar.data ?? []).filter((v: any) => v.id !== id).length > 0 && (
           <div className="mt-8">
